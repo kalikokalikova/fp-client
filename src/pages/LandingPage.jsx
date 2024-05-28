@@ -4,6 +4,8 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
+import BoltIcon from "@mui/icons-material/Bolt";
+import Stack from "@mui/material/Stack";
 
 const landingPageStyles = {
   container: {
@@ -28,21 +30,22 @@ const landingPageStyles = {
 function LandingPage() {
   return (
     <Box style={landingPageStyles.container}>
-      <Typography variant="h2" gutterBottom>
-        <Box>Things are happening in your neighborhood...</Box>
-        <Box>Enter your zip code to find them!</Box>
-      </Typography>
-      <Box
-        component="form"
-        sx={{
-          "& > :not(style)": { m: 1, width: "25ch" },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-        <Button variant="outlined">Outlined</Button>
-      </Box>
+      <Stack>
+        <BoltIcon sx={{ color: "text.primary" }} />
+        <Typography variant="h3" sx={{ color: "text.primary" }} gutterBottom>
+          <Box>Things are happening in your neighborhood...</Box>
+          <Box>Enter your zip code to find them!</Box>
+        </Typography>
+        <Box
+          component="form"
+          sx={{
+            "& > :not(style)": { m: 1 },
+          }}
+        >
+          <TextField id="outlined-basic" label="zipcode" variant="outlined" sx={{ backgroundColor: "#fff6eb", color: "text.primary", border: "none" }} />
+          <Button variant="outlined" sx={{ borderRadius: "17px", border: "none", backgroundColor: "#fff6eb", color: "text.primary" }}>find events</Button>
+        </Box>
+      </Stack>
     </Box>
   );
 }

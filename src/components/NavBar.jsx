@@ -11,10 +11,10 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import BoltIcon from '@mui/icons-material/Bolt';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const navLinks = ['create event', 'saved events'];
+const settings = ['account', 'logout'];
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -36,10 +36,10 @@ function NavBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: "#fff0", boxShadow: "none" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <BoltIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: 'text.primary' }} />
           <Typography
             variant="h6"
             noWrap
@@ -48,14 +48,12 @@ function NavBar() {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'text.primary',
               textDecoration: 'none',
             }}
           >
-            LOGO
+            FlashPony
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -65,7 +63,7 @@ function NavBar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              color="text.primary"
             >
               <MenuIcon />
             </IconButton>
@@ -87,14 +85,14 @@ function NavBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {navLinks.map((link) => (
+                <MenuItem key={link} onClick={handleCloseNavMenu}>
+                  <Typography sx={{ color: 'text.primary' }} textAlign="center">{link}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <BoltIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: 'text.primary' }} />
           <Typography
             variant="h5"
             noWrap
@@ -104,23 +102,21 @@ function NavBar() {
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'text.primary',
               textDecoration: 'none',
             }}
           >
-            LOGO
+            FlashPony
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {navLinks.map((link) => (
               <Button
-                key={page}
+                key={link}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'text.primary', display: 'block' }}
               >
-                {page}
+                {link}
               </Button>
             ))}
           </Box>
