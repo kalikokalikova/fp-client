@@ -9,22 +9,27 @@ import {
 import LandingPage from './pages/LandingPage.jsx';
 import EventsPage from './pages/EventsPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
-import Event from './events/Event.jsx';
+import Event from './components/events/Event.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage/>,
-    errorElement: <NotFoundPage/>
+    element: <App/>,
+    errorElement: <NotFoundPage/>,
+    children: [
+      { path: "/",
+        element: <LandingPage/>
+      },
+      {
+        path: "/events",
+        element: <EventsPage/>
+      },
+      {
+        path: "/events/:eventId",
+        element: <Event/>
+      }
+    ]
   },
-  {
-    path: "/events",
-    element: <EventsPage/>
-  },
-  {
-    path: "/events/:eventId",
-    element: <Event/>
-  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
