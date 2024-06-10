@@ -52,14 +52,32 @@ function LandingPage() {
           component="form"
           sx={{
             "& > :not(style)": { m: 1 },
+            display: "flex",
+            justifyContent: "center",
           }}
         >
           <TextField
             id="outlined-basic"
             label="zipcode"
-            variant="outlined"
+            // variant="outlined"
+            size="small"
             sx={{
-              backgroundColor: "#fff6eb",
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "0px",
+                "&.Mui-focused fieldset": {
+                  borderColor: "primaryLight",
+                },
+                '&:hover fieldset': {
+                    borderColor: 'primaryLight',
+                  },
+              },
+              '& .MuiInputLabel-root': {
+                color: 'black',
+                '&.Mui-focused': {
+                  color: 'black',
+                },
+              },
+              backgroundColor: "primaryLight",
               color: "text.primary",
               border: "none",
             }}
@@ -67,9 +85,8 @@ function LandingPage() {
           <Button
             variant="outlined"
             sx={{
-              borderRadius: "17px",
               border: "none",
-              backgroundColor: "#fff6eb",
+              backgroundColor: "primaryLight",
               color: "text.primary",
             }}
           >
