@@ -39,15 +39,18 @@ function LandingPage() {
           position: "relative",
           zIndex: 1,
           color: "text.light",
-          textAlign: "center",
           padding: "20px",
+          alignItems: "center"
         }}
       >
-        <BoltIcon />
-        <Typography variant="h3" gutterBottom>
-          <Box>Things are happening in your neighborhood...</Box>
-          <Box>Enter your zip code to find them!</Box>
-        </Typography>
+          <BoltIcon sx={{ fontSize: "4rem", marginBottom: "1rem" }} />
+          <Typography variant="h3" sx={{ marginBottom: "1rem" }}>
+            Things are happening in your neighborhood...
+          </Typography>
+          <Typography variant="h3" sx={{ marginBottom: "2.5rem" }}>
+            Enter your zip code to find them!
+          </Typography>
+
         <Box
           component="form"
           sx={{
@@ -67,14 +70,14 @@ function LandingPage() {
                 "&.Mui-focused fieldset": {
                   borderColor: "primaryLight",
                 },
-                '&:hover fieldset': {
-                    borderColor: 'primaryLight',
-                  },
+                "&:hover fieldset": {
+                  borderColor: "primaryLight",
+                },
               },
-              '& .MuiInputLabel-root': {
-                color: 'black',
-                '&.Mui-focused': {
-                  color: 'black',
+              "& .MuiInputLabel-root": {
+                color: "black",
+                "&.Mui-focused": {
+                  color: "black",
                 },
               },
               backgroundColor: "primaryLight",
