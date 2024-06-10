@@ -38,9 +38,9 @@ function LandingPage() {
         sx={{
           position: "relative",
           zIndex: 1,
-          color: "text.primary",
+          color: "text.light",
           textAlign: "center",
-          padding: "20px", // Adjust as needed
+          padding: "20px",
         }}
       >
         <BoltIcon />

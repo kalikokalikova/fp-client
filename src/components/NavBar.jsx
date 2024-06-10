@@ -36,20 +36,20 @@ function NavBar() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#fff0", boxShadow: "none" }}>
-      <Container maxWidth="xl">
+    <AppBar position="static" sx={{ backgroundColor: "primaryDark", boxShadow: "none" }}>
+      <Container sx={{ maxWidth: "100% !important" }}>
         <Toolbar disableGutters>
-          <BoltIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: 'text.primary' }} />
+          <BoltIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: 'text.light' }} />
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="#"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontWeight: 700,
-              color: 'text.primary',
+              color: 'text.light',
               textDecoration: 'none',
             }}
           >
@@ -59,13 +59,13 @@ function NavBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
+              aria-label="hamburger"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="text.primary"
+              color="text.light"
             >
-              <MenuIcon />
+              <MenuIcon sx={{ color: "text.light"}}/>
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -87,23 +87,23 @@ function NavBar() {
             >
               {navLinks.map((link) => (
                 <MenuItem key={link} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ color: 'text.primary' }} textAlign="center">{link}</Typography>
+                  <Typography sx={{ color: 'text.dark' }} textAlign="center">{link}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <BoltIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: 'text.primary' }} />
+          <BoltIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: 'text.light' }} />
           <Typography
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="#"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
               fontWeight: 700,
-              color: 'text.primary',
+              color: 'text.light',
               textDecoration: 'none',
             }}
           >
@@ -114,7 +114,7 @@ function NavBar() {
               <Button
                 key={link}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'text.primary', display: 'block' }}
+                sx={{ my: 2, color: 'text.light', display: 'block' }}
               >
                 {link}
               </Button>

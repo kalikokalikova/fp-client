@@ -2,17 +2,10 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
-    primary: {
-      main: '#1976d2', // Custom primary color
-    },
-    secondary: {
-      main: '#dc004e', // Custom secondary color
-    },
-    background: {
-      default: '#f5f5f5', // Default background color
-    },
+    primaryDark: "#181818", // custom charcoal
+    primaryLight: "#f5f5f5", // custom parchment
     text: {
-      primary: '#f5f5f5', // Default primary text color
+      light: '#f5f5f5', // custome parchment
     },
   },
   typography: {
