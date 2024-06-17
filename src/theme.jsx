@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
-    primaryDark: "#181818", // custom charcoal
+    primaryDark: "#181818e0", // custom charcoal
     primaryLight: "#f5f5f5", // custom parchment
     text: {
       light: '#f5f5f5', // custome parchment
