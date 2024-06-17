@@ -13,8 +13,7 @@ export default function EventsPage() {
 
   const ConstructedEvent = ({ event }) => {
     const backgroundImage = "url(../src/assets/dayCards/Day_1.webp)";
-    const startDateTime = event.starttime
-    const endDateTime = event.endtime
+    const startDateTime = event.starttime;
     return (
       <Box
         sx={{
@@ -25,15 +24,25 @@ export default function EventsPage() {
           height: "400px",
           borderRadius: "8px",
           position: "relative",
-          margin: "0 15px 15px 0"
+          margin: "0 15px 15px 0",
+          display: "flex",
+          justifyContent: "center"
         }}
-
       >
-        <Box sx={{ backgroundColor: "#fff9ef8a", position: "absolute", bottom: "10px", color: "primaryDark" }}>
+        <Box
+          sx={{
+            backgroundColor: "#fff9ef8a",
+            position: "absolute",
+            bottom: "10px",
+            color: "primaryDark",
+            width: "87%",
+            borderRadius: "6px",
+            padding: "8px"
+          }}
+        >
           <Typography>{event.title}</Typography>
-          <Typography>{startDateTime} to {endDateTime}</Typography>
+          <Typography>{startDateTime}</Typography>
         </Box>
-
       </Box>
     );
   };
@@ -47,13 +56,12 @@ export default function EventsPage() {
             <SearchIcon />
           </Typography>
           <Box sx={{ display: "flex" }}>
-          {events.map((event) => (
-            <Link key={event.id} to={`${event.id}`}>
-              <ConstructedEvent event={event} />
-            </Link>
-          ))}
+            {events.map((event) => (
+              <Link key={event.id} to={`${event.id}`}>
+                <ConstructedEvent event={event} />
+              </Link>
+            ))}
           </Box>
-
         </Container>
       </Box>
     </>
