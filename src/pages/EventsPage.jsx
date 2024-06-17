@@ -1,16 +1,18 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import dummyEvents from "../components/events/dummyEvents.json";
 import { Link } from "react-router-dom";
 
-const events = [
-  { id: 1, name: "foo", datetime: "a date and time", description: "blah blah blah" },
-  { id: 2, name: "bar", datetime: "a date and time", description: "blah blah blah" },
-  { id: 3, name: "baz", datetime: "a date and time", description: "blah blah blah" },
-];
-
 export default function EventsPage() {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    setEvents(dummyEvents)
+  },[])
+
+
   return <>
   {events.map((event) =>
-    <Link key={event.id} to={`${event.id}`}>{event.name}</Link>
+    <Link key={event.id} to={`${event.id}`}>{event.title}</Link>
   )}
   </>;
 }
