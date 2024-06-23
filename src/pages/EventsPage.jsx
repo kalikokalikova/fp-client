@@ -3,6 +3,7 @@ import dummyEvents from "../components/events/dummyEvents.json";
 import { Link } from "react-router-dom";
 import { Typography, Container, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { Day_1 } from "../assets/cards";
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
@@ -12,7 +13,7 @@ export default function EventsPage() {
   }, []);
 
   const ConstructedEvent = ({ event }) => {
-    const backgroundImage = "url(../src/assets/dayCards/Day_1.webp)";
+    const backgroundImage = `url(${Day_1})`;
     const startDateTime = event.starttime;
     return (
       <Box
