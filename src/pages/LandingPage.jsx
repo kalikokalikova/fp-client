@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import mixedLandingImage from "../assets/mixedLandingImage.jpg";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -6,8 +6,24 @@ import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
 import BoltIcon from "@mui/icons-material/Bolt";
 import Stack from "@mui/material/Stack";
+import { useNavigate } from "react-router-dom";
+
 
 function LandingPage() {
+  const [zipcode, setZipcode] = useState("");
+  const navigate = useNavigate()
+
+  const handleInputChange = (e) => {
+    setZipcode(e.target.value);
+  }
+
+  const handleZipClick = () => {
+    console.log("we submit: ",zipcode)
+    // validate zip code here
+    navigate("/events");
+
+  }
+
   return (
     <Box
       sx={{
@@ -60,9 +76,10 @@ function LandingPage() {
           }}
         >
           <TextField
+            onChange={handleInputChange}
+            value={zipcode}
             id="outlined-basic"
             label="zipcode"
-            // variant="outlined"
             size="small"
             sx={{
               "& .MuiOutlinedInput-root": {
@@ -87,6 +104,7 @@ function LandingPage() {
           />
           <Button
             variant="outlined"
+            onClick={handleZipClick}
             sx={{
               border: "none",
               backgroundColor: "primaryLight",
