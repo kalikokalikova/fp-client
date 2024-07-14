@@ -3,14 +3,26 @@ import dummyEvents from "../components/events/dummyEvents.json";
 import { Link } from "react-router-dom";
 import { Typography, Container, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import api from "../api";
 import { Day_1 } from "../assets/cards";
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
 
-  useEffect(() => {
-    setEvents(dummyEvents);
-  }, []);
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      let response = await api.get(`/events`);
+      console.log("Here's the response: ", response);
+      setEvents(response.data);
+    } catch (error) {
+      console.log("Here's the error: ", error);
+    }
+  };
+
+  fetchData();
+}, [])
+
 
   const ConstructedEvent = ({ event }) => {
     const backgroundImage = `url(${Day_1})`;
