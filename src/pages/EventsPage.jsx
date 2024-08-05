@@ -8,21 +8,22 @@ import { Day_1 } from "../assets/cards";
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
+  console.log('API URL:', process.env.REACT_APP_API_URL);
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      let response = await api.get(`/events`);
-      console.log("Here's the response: ", response);
-      setEvents(response.data);
-    } catch (error) {
-      console.log("Here's the error: ", error);
-    }
-  };
 
-  fetchData();
-}, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response = await api.get(`/events`);
+        console.log("Here's the response: ", response);
+        setEvents(response.data);
+      } catch (error) {
+        console.log("Here's the error: ", error);
+      }
+    };
 
+    fetchData();
+  }, []);
 
   const ConstructedEvent = ({ event }) => {
     const backgroundImage = `url(${Day_1})`;
@@ -39,7 +40,7 @@ useEffect(() => {
           position: "relative",
           margin: "0 15px 15px 0",
           display: "flex",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
         <Box
@@ -50,7 +51,7 @@ useEffect(() => {
             color: "primaryDark",
             width: "87%",
             borderRadius: "6px",
-            padding: "8px"
+            padding: "8px",
           }}
         >
           <Typography>{event.title}</Typography>
