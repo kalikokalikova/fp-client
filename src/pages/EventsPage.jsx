@@ -8,8 +8,8 @@ import { Day_1 } from "../assets/cards";
 
 export default function EventsPage() {
   const [events, setEvents] = useState([]);
-  console.log('API URL:', process.env.REACT_APP_API_URL);
-  console.log('test ', process.env.TEST)
+  console.log('API URL:', import.meta.env.VITE_API_URL);
+  console.log('test ', import.meta.env)
 
 
   useEffect(() => {
