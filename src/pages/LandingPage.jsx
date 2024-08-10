@@ -46,7 +46,7 @@ function LandingPage() {
           left: 0,
           width: "100%",
           height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.65)", // Semi-transparent black overlay
+          backgroundColor: "#ffffffd9", // Semi-transparent black overlay
           pointerEvents: "none", // Ensures the overlay doesn't interfere with user interactions
         }}
       ></Box>
@@ -54,16 +54,15 @@ function LandingPage() {
         sx={{
           position: "relative",
           zIndex: 1,
-          color: "text.light",
+          color: "text.dark",
           padding: "20px",
           alignItems: "center"
         }}
       >
-          <BoltIcon sx={{ fontSize: "4rem", marginBottom: "1rem" }} />
-          <Typography variant="h3" sx={{ marginBottom: "1rem" }}>
+          <Typography variant="h6" sx={{ marginBottom: "1rem" }}>
             Things are happening in your neighborhood...
           </Typography>
-          <Typography variant="h3" sx={{ marginBottom: "2.5rem" }}>
+          <Typography variant="h6" sx={{ marginBottom: "2.5rem" }}>
             Enter your zip code to find them!
           </Typography>
 

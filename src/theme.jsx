@@ -6,6 +6,7 @@ const theme = createTheme({
     primaryLight: "#f5f5f5", // custom parchment
     text: {
       light: '#f5f5f5', // custome parchment
+      dark: '#181818f5'
     },
   },
   typography: {
