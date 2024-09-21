@@ -29,6 +29,8 @@ function CreateEventPage() {
 
   const handleChange = (e) => {
     const { id, value, checked, type } = e.target;
+		console.log(e.target)
+		console.log(formData)
     setFormData({
       ...formData,
       [id]: type === "checkbox" ? checked : value,
@@ -36,7 +38,8 @@ function CreateEventPage() {
   };
 
   const handleDateChange = (id, newValue) => {
-    setFormData((prev) => ({ ...prev, [id]: newValue }));
+		console.log(dayjs(newValue).toISOString())
+		setFormData((prev) => ({ ...prev, [id]: dayjs(newValue).toISOString() }));
   };
 
   const handleSubmit = async (e) => {
@@ -45,10 +48,6 @@ function CreateEventPage() {
 
     try {
       const response = await api.post("/api/v1/events", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: formData,
       });
 
@@ -79,13 +78,13 @@ function CreateEventPage() {
           <MobileDateTimePicker
             id="startTime"
             label="start time *"
-            value={formData.startTime}
+            value={dayjs(formData.startTime)}
             onChange={(newValue) => handleDateChange("startTime", newValue)}
           />
           <MobileDateTimePicker
             id="endTime"
             label="end time"
-            value={formData.endTime}
+            value={formData.endTime ? dayjs(formData.endTime) : null}
             onChange={(newValue) => handleDateChange("endTime", newValue)}
           />
 
@@ -114,9 +113,9 @@ function CreateEventPage() {
 
           <Box>
             <FormControlLabel
-              id="isShareable"
               control={
                 <Checkbox
+									id="isShareable"
                   checked={formData.isShareable}
                   onChange={handleChange}
                 />
@@ -124,9 +123,9 @@ function CreateEventPage() {
               label="Allow guests to share event"
             />
             <FormControlLabel
-              id="allowQA"
               control={
                 <Checkbox
+									id="allowQA"
                   checked={formData.allowQA}
                   onChange={handleChange}
                 />
