@@ -41,8 +41,8 @@ function NavBar() {
 
   return (
     <AppBar
-      position="absolute"
-      sx={{ backgroundColor: "#ffffff00", boxShadow: "none" }}
+      position="inherit"
+      sx={{ backgroundColor: "green", boxShadow: "none" }}
     >
       <Container sx={{ maxWidth: "100% !important" }}>
         <Toolbar disableGutters>

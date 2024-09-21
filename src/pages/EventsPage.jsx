@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import dummyEvents from "../components/events/dummyEvents.json";
 import { Link } from "react-router-dom";
 import { Typography, Container, Box } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";

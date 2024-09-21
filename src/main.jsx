@@ -13,6 +13,7 @@ import LandingPage from './pages/LandingPage.jsx';
 import EventsPage from './pages/EventsPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import Event from './components/events/Event.jsx';
+import CreateEventPage from './pages/CreateEventPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
     errorElement: <NotFoundPage/>,
     children: [
       { path: "/",
-        element: <LandingPage/>
+        element: <CreateEventPage/>
       },
       {
         path: "/events",
