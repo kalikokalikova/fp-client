@@ -11,14 +11,16 @@ import {
   Button,
   FormControlLabel,
   Checkbox,
+  FormHelperText,
 } from "@mui/material";
 import api from "../api";
 import { Day_1 } from "../assets/cards";
 
 function CreateEventPage() {
-	const [formData, setFormData] = useState({
+  const [showEndDateTime, setShowEndDateTime] = useState(false);
+  const [formData, setFormData] = useState({
     title: "",
-    startTime: dayjs(),
+    startTime: dayjs().toISOString(),
     endTime: null,
     location: "",
     description: "",
@@ -27,10 +29,18 @@ function CreateEventPage() {
     allowQA: true,
   });
 
+	useEffect(() => {
+		console.log(formData)
+	}, [formData])
+
+	useEffect(() => {
+		if (!showEndDateTime) {
+			setFormData((prev) => ({ ...prev, endTime: null}))
+		}
+	}, [showEndDateTime])
+
   const handleChange = (e) => {
     const { id, value, checked, type } = e.target;
-		console.log(e.target)
-		console.log(formData)
     setFormData({
       ...formData,
       [id]: type === "checkbox" ? checked : value,
@@ -38,13 +48,16 @@ function CreateEventPage() {
   };
 
   const handleDateChange = (id, newValue) => {
-		console.log(dayjs(newValue).toISOString())
-		setFormData((prev) => ({ ...prev, [id]: dayjs(newValue).toISOString() }));
+    setFormData((prev) => ({ ...prev, [id]: dayjs(newValue).toISOString() }));
   };
+
+	const handleEndDateTimeToggle = (e) => {
+		setShowEndDateTime(!showEndDateTime);
+	}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-		console.log(formData)
+    console.log(formData);
 
     try {
       const response = await api.post("/api/v1/events", {
@@ -66,7 +79,7 @@ function CreateEventPage() {
     <Box sx={{ backgroundColor: "white" }}>
       <Container sx={{ display: "flex", justifyContent: "center" }}>
         <Typography>Create Event</Typography>
-				<FormControl component="form" onSubmit={handleSubmit}>
+        <FormControl component="form" onSubmit={handleSubmit}>
           <TextField
             id="title"
             label="event title *"
@@ -81,12 +94,18 @@ function CreateEventPage() {
             value={dayjs(formData.startTime)}
             onChange={(newValue) => handleDateChange("startTime", newValue)}
           />
-          <MobileDateTimePicker
-            id="endTime"
-            label="end time"
-            value={formData.endTime ? dayjs(formData.endTime) : null}
-            onChange={(newValue) => handleDateChange("endTime", newValue)}
-          />
+          {showEndDateTime ? (
+						<><MobileDateTimePicker
+						id="endTime"
+						label="end time"
+						value={formData.endTime ? dayjs(formData.endTime) : null}
+						onChange={(newValue) => handleDateChange("endTime", newValue)}
+					/>
+					<FormHelperText onClick={handleEndDateTimeToggle}>- remove end time</FormHelperText></>
+
+          ) : (
+						<FormHelperText onClick={handleEndDateTimeToggle}>+ add end time</FormHelperText>
+					)}
 
           <TextField
             id="location"
@@ -115,7 +134,7 @@ function CreateEventPage() {
             <FormControlLabel
               control={
                 <Checkbox
-									id="isShareable"
+                  id="isShareable"
                   checked={formData.isShareable}
                   onChange={handleChange}
                 />
@@ -125,7 +144,7 @@ function CreateEventPage() {
             <FormControlLabel
               control={
                 <Checkbox
-									id="allowQA"
+                  id="allowQA"
                   checked={formData.allowQA}
                   onChange={handleChange}
                 />
