@@ -16,8 +16,26 @@ import {
 import api from "../api";
 import { Day_1 } from "../assets/cards";
 
+const commonInputStyles = {
+  marginTop: "16px", // example style
+  width: "100%",
+  backgroundColor: "white", // custom parchment color
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#181818f5", // custom charcoal color
+    },
+    "&:hover fieldset": {
+      borderColor: "#000", // Darker on hover
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#3f51b5", // Custom focus color (primary)
+    },
+  },
+};
+
 function CreateEventPage() {
   const [showEndDateTime, setShowEndDateTime] = useState(false);
+	const backgroundImage = `url(${Day_1})`;
   const [formData, setFormData] = useState({
     title: "",
     startTime: dayjs().toISOString(),
@@ -29,15 +47,15 @@ function CreateEventPage() {
     allowQA: true,
   });
 
-	useEffect(() => {
-		console.log(formData)
-	}, [formData])
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
-	useEffect(() => {
-		if (!showEndDateTime) {
-			setFormData((prev) => ({ ...prev, endTime: null}))
-		}
-	}, [showEndDateTime])
+  useEffect(() => {
+    if (!showEndDateTime) {
+      setFormData((prev) => ({ ...prev, endTime: null }));
+    }
+  }, [showEndDateTime]);
 
   const handleChange = (e) => {
     const { id, value, checked, type } = e.target;
@@ -51,9 +69,9 @@ function CreateEventPage() {
     setFormData((prev) => ({ ...prev, [id]: dayjs(newValue).toISOString() }));
   };
 
-	const handleEndDateTimeToggle = (e) => {
-		setShowEndDateTime(!showEndDateTime);
-	}
+  const handleEndDateTimeToggle = (e) => {
+    setShowEndDateTime(!showEndDateTime);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,9 +94,29 @@ function CreateEventPage() {
   };
 
   return (
-    <Box sx={{ backgroundColor: "white" }}>
-      <Container sx={{ display: "flex", justifyContent: "center" }}>
-        <Typography>Create Event</Typography>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        backgroundImage: backgroundImage, // Add the image URL here
+        backgroundPosition: "bottom", // Centers the image
+      }}
+    >
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: "15px",
+          backgroundColor: "primaryLight",
+          margin: "40px 27px",
+          width: "80%",
+          borderRadius: "6px",
+        }}
+      >
+        {/* <Typography variant="h1" gutterBottom>
+          Create Event
+        </Typography> */}
         <FormControl component="form" onSubmit={handleSubmit}>
           <TextField
             id="title"
@@ -86,26 +124,48 @@ function CreateEventPage() {
             variant="outlined"
             value={formData.title}
             onChange={handleChange}
+            sx={commonInputStyles}
           />
 
           <MobileDateTimePicker
+            sx={commonInputStyles}
             id="startTime"
             label="start time *"
             value={dayjs(formData.startTime)}
             onChange={(newValue) => handleDateChange("startTime", newValue)}
           />
           {showEndDateTime ? (
-						<><MobileDateTimePicker
-						id="endTime"
-						label="end time"
-						value={formData.endTime ? dayjs(formData.endTime) : null}
-						onChange={(newValue) => handleDateChange("endTime", newValue)}
-					/>
-					<FormHelperText onClick={handleEndDateTimeToggle}>- remove end time</FormHelperText></>
-
+            <>
+              <MobileDateTimePicker
+                id="endTime"
+                label="end time"
+                value={formData.endTime ? dayjs(formData.endTime) : null}
+                onChange={(newValue) => handleDateChange("endTime", newValue)}
+                sx={commonInputStyles}
+              />
+              <FormHelperText
+                sx={{
+                  textAlign: "right",
+                  margin: 0,
+                  textDecoration: "underline",
+                }}
+                onClick={handleEndDateTimeToggle}
+              >
+                - remove end time
+              </FormHelperText>
+            </>
           ) : (
-						<FormHelperText onClick={handleEndDateTimeToggle}>+ add end time</FormHelperText>
-					)}
+            <FormHelperText
+              sx={{
+                textAlign: "right",
+                margin: 0,
+                textDecoration: "underline",
+              }}
+              onClick={handleEndDateTimeToggle}
+            >
+              + add end time
+            </FormHelperText>
+          )}
 
           <TextField
             id="location"
@@ -113,13 +173,16 @@ function CreateEventPage() {
             variant="outlined"
             value={formData.location}
             onChange={handleChange}
+            sx={commonInputStyles}
           />
 
-          <TextareaAutosize
-            placeholder="Enter event description here"
+          <TextField
+            id="description"
+            label="description"
+            variant="outlined"
             value={formData.description}
             onChange={handleChange}
-            id="description"
+            sx={commonInputStyles}
           />
 
           <TextField
@@ -128,9 +191,10 @@ function CreateEventPage() {
             variant="outlined"
             value={formData.email}
             onChange={handleChange}
+            sx={commonInputStyles}
           />
 
-          <Box>
+          <Box sx={{ display: "flex", flexDirection: "column", marginTop: "10px" }}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -153,7 +217,7 @@ function CreateEventPage() {
             />
           </Box>
 
-          <Button type="submit">create event</Button>
+          <Button type="submit" sx={{ marginTop: "20px" }}>create event</Button>
         </FormControl>
       </Container>
     </Box>

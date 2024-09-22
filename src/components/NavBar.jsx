@@ -42,7 +42,7 @@ function NavBar() {
   return (
     <AppBar
       position="inherit"
-      sx={{ backgroundColor: "green", boxShadow: "none" }}
+      sx={{ backgroundColor: "primaryLight", boxShadow: "none" }}
     >
       <Container sx={{ maxWidth: "100% !important" }}>
         <Toolbar disableGutters>
@@ -54,7 +54,7 @@ function NavBar() {
             }}
           />
           <Typography
-            variant="h6"
+            variant="h2"
             noWrap
             component="a"
             href="#"
@@ -121,7 +121,7 @@ function NavBar() {
             }}
           />
           <Typography
-            variant="h5"
+            variant="h2"
             noWrap
             component="a"
             href="#"
