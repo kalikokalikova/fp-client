@@ -1,11 +1,13 @@
 export const getLocationSuggestions = async (query) => {
+	const apiKey = import.meta.env.VITE_GEOAPIFY_API_KEY;
+
   const requestOptions = {
     method: 'GET',
   };
 
   try {
     const response = await fetch(
-      `https://api.geoapify.com/v1/geocode/autocomplete?text=${query}&apiKey=1dd6ff65f036430b8cea1308edfbe559`,
+      `https://api.geoapify.com/v1/geocode/autocomplete?text=${query}&apiKey=${apiKey}`,
       requestOptions
     );
 

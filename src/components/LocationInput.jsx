@@ -24,7 +24,7 @@ function LocationInput({ setFormData }) {
       }
     };
     fetchSuggestions();
-  }, [query]); // Run this effect whenever `query` changes
+  }, [query]);
 
   return (
     <>
