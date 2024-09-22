@@ -12,6 +12,43 @@ const theme = createTheme({
   typography: {
     fontFamily: 'Libre Franklin, sans-serif',
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          // Default styles (if any)
+        },
+        '&.action': {
+          backgroundColor: "gray",
+          color: "white",
+          borderRadius: '18px', // Pill shape
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        h1: {
+          fontSize: '1.6rem',
+        },
+        h2: {
+          fontSize: '1.5rem',
+        },
+        h3: {
+          fontSize: '1rem',
+          fontWeight: 'bold',
+        },
+        h4: {
+          fontSize: '.75rem',
+        },
+        h5: {
+          fontSize: '.5rem',
+        },
+        h6: {
+          fontSize: '.25rem',
+        },
+      },
+    },
+  },
 });
 
 export default theme;

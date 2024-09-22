@@ -25,3 +25,6 @@ dist-ssr
 
 # don't store secrets in git
 .env
+
+# don't store dummy data in repo
+/dummyData/

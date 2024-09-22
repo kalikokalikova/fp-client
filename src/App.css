@@ -1,4 +1,9 @@
 body {
-    background-color: #181818f5;
+    background-color: #f5f5f5;
     font-family: 'Libre Franklin', sans-serif;
+}
+.action-button {
+    background-color: gray !important;
+          color: white !important;
+          border-radius: 18px !important;
 }
