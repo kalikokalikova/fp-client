@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { MobileDateTimePicker } from "@mui/x-date-pickers/MobileDateTimePicker";
-import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import dayjs from "dayjs";
 import {
   Typography,
@@ -17,34 +16,37 @@ import api from "../api";
 import { Day_1 } from "../assets/cards";
 
 const commonInputStyles = {
-  marginTop: "16px", // example style
+  marginTop: "16px",
   width: "100%",
-  backgroundColor: "white", // custom parchment color
+  backgroundColor: "white",
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      borderColor: "#181818f5", // custom charcoal color
+      borderColor: "#01010133",
     },
     "&:hover fieldset": {
-      borderColor: "#000", // Darker on hover
+      borderColor: "#01010133",
     },
     "&.Mui-focused fieldset": {
-      borderColor: "#3f51b5", // Custom focus color (primary)
+      borderColor: "#01010133",
     },
   },
 };
 
 function CreateEventPage() {
+  const userLoggedIn = false;
   const [showEndDateTime, setShowEndDateTime] = useState(false);
-	const backgroundImage = `url(${Day_1})`;
+  const backgroundImage = `url(${Day_1})`;
   const [formData, setFormData] = useState({
     title: "",
     startTime: dayjs().toISOString(),
     endTime: null,
     location: "",
     description: "",
-    email: "",
     isShareable: true,
     allowQA: true,
+    hostName: "",
+    phone: "",
+    password: "",
   });
 
   useEffect(() => {
@@ -108,41 +110,54 @@ function CreateEventPage() {
           flexDirection: "column",
           alignItems: "center",
           padding: "15px",
-          backgroundColor: "primaryLight",
+          backgroundColor: "white",
           margin: "40px 27px",
           width: "80%",
           borderRadius: "6px",
         }}
       >
-        {/* <Typography variant="h1" gutterBottom>
-          Create Event
-        </Typography> */}
         <FormControl component="form" onSubmit={handleSubmit}>
-          <TextField
-            id="title"
-            label="event title *"
-            variant="outlined"
-            value={formData.title}
-            onChange={handleChange}
-            sx={commonInputStyles}
-          />
+          <Box className="event-info">
+            <Typography variant="h3" gutterBottom>
+              Event Info
+            </Typography>
+            <TextField
+              id="title"
+              label="event title *"
+              variant="outlined"
+              value={formData.title}
+              onChange={handleChange}
+              sx={commonInputStyles}
+            />
 
-          <MobileDateTimePicker
-            sx={commonInputStyles}
-            id="startTime"
-            label="start time *"
-            value={dayjs(formData.startTime)}
-            onChange={(newValue) => handleDateChange("startTime", newValue)}
-          />
-          {showEndDateTime ? (
-            <>
-              <MobileDateTimePicker
-                id="endTime"
-                label="end time"
-                value={formData.endTime ? dayjs(formData.endTime) : null}
-                onChange={(newValue) => handleDateChange("endTime", newValue)}
-                sx={commonInputStyles}
-              />
+            <MobileDateTimePicker
+              sx={commonInputStyles}
+              id="startTime"
+              label="start time *"
+              value={dayjs(formData.startTime)}
+              onChange={(newValue) => handleDateChange("startTime", newValue)}
+            />
+            {showEndDateTime ? (
+              <>
+                <MobileDateTimePicker
+                  id="endTime"
+                  label="end time"
+                  value={formData.endTime ? dayjs(formData.endTime) : null}
+                  onChange={(newValue) => handleDateChange("endTime", newValue)}
+                  sx={commonInputStyles}
+                />
+                <FormHelperText
+                  sx={{
+                    textAlign: "right",
+                    margin: 0,
+                    textDecoration: "underline",
+                  }}
+                  onClick={handleEndDateTimeToggle}
+                >
+                  - remove end time
+                </FormHelperText>
+              </>
+            ) : (
               <FormHelperText
                 sx={{
                   textAlign: "right",
@@ -151,73 +166,98 @@ function CreateEventPage() {
                 }}
                 onClick={handleEndDateTimeToggle}
               >
-                - remove end time
+                + add end time
               </FormHelperText>
-            </>
-          ) : (
-            <FormHelperText
+            )}
+
+            <TextField
+              id="location"
+              label="location *"
+              variant="outlined"
+              value={formData.location}
+              onChange={handleChange}
+              sx={commonInputStyles}
+            />
+
+            <TextField
+              id="description"
+              label="description"
+              variant="outlined"
+              value={formData.description}
+              onChange={handleChange}
+              sx={commonInputStyles}
+            />
+
+            <TextField
+              id="host-name"
+              label="host name"
+              variant="outlined"
+              value={formData.hostName}
+              onChange={handleChange}
+              sx={commonInputStyles}
+            />
+
+            <Box
               sx={{
-                textAlign: "right",
-                margin: 0,
-                textDecoration: "underline",
+                display: "flex",
+                flexDirection: "column",
+                marginTop: "10px",
               }}
-              onClick={handleEndDateTimeToggle}
             >
-              + add end time
-            </FormHelperText>
-          )}
-
-          <TextField
-            id="location"
-            label="location *"
-            variant="outlined"
-            value={formData.location}
-            onChange={handleChange}
-            sx={commonInputStyles}
-          />
-
-          <TextField
-            id="description"
-            label="description"
-            variant="outlined"
-            value={formData.description}
-            onChange={handleChange}
-            sx={commonInputStyles}
-          />
-
-          <TextField
-            id="email"
-            label="email *"
-            variant="outlined"
-            value={formData.email}
-            onChange={handleChange}
-            sx={commonInputStyles}
-          />
-
-          <Box sx={{ display: "flex", flexDirection: "column", marginTop: "10px" }}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  id="isShareable"
-                  checked={formData.isShareable}
-                  onChange={handleChange}
-                />
-              }
-              label="Allow guests to share event"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  id="allowQA"
-                  checked={formData.allowQA}
-                  onChange={handleChange}
-                />
-              }
-              label="Allow Q&A"
-            />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    id="isShareable"
+                    checked={formData.isShareable}
+                    onChange={handleChange}
+                  />
+                }
+                label="Allow guests to share event"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    id="allowQA"
+                    checked={formData.allowQA}
+                    onChange={handleChange}
+                  />
+                }
+                label="Allow Q&A"
+              />
+            </Box>
           </Box>
 
-          <Button type="submit" sx={{ marginTop: "20px" }}>create event</Button>
+          {userLoggedIn && (
+            <Box className="user-info" sx={{ margin: "20px 0" }}>
+              <Typography variant="h3" gutterBottom>
+                Your Info
+              </Typography>
+              <TextField
+                id="phone"
+                label="phone number *"
+                variant="outlined"
+                value={formData.phone}
+                onChange={handleChange}
+                sx={commonInputStyles}
+              />
+
+              <FormControlLabel
+                sx={{ marginTop: "8px" }}
+                control={
+                  <Checkbox
+                    id="isShareable"
+                    checked={formData.isShareable}
+                    onChange={handleChange}
+                  />
+                }
+                label="I want to be able to edit this event after it's created."
+              />
+            </Box>
+          )}
+
+          <Button type="submit" className="action-button" sx={{ marginTop: "20px" }}>
+            create event
+          </Button>
         </FormControl>
       </Container>
     </Box>

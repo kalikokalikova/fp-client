@@ -16,6 +16,9 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
+          // Default styles (if any)
+        },
+        '&.action': {
           backgroundColor: "gray",
           color: "white",
           borderRadius: '18px', // Pill shape
@@ -32,6 +35,7 @@ const theme = createTheme({
         },
         h3: {
           fontSize: '1rem',
+          fontWeight: 'bold',
         },
         h4: {
           fontSize: '.75rem',
