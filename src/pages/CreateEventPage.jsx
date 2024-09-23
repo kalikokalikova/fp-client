@@ -171,7 +171,7 @@ function CreateEventPage() {
 						<LocationInput setFormData={setFormData} />
 
 						<TextField
-              id="host-name"
+              id="hostName"
               label="host name"
               variant="outlined"
               value={formData.hostName}
