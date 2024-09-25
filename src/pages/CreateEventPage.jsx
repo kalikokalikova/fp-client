@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import api from "../api";
 import { Day_1 } from "../assets/cards";
+import LocationInput from "../components/LocationInput";
 
 const commonInputStyles = {
   marginTop: "16px",
@@ -40,7 +41,7 @@ function CreateEventPage() {
     title: "",
     startTime: dayjs().toISOString(),
     endTime: null,
-    location: "",
+    location: {},
     description: "",
     isShareable: true,
     allowQA: true,
@@ -49,9 +50,6 @@ function CreateEventPage() {
     password: "",
   });
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   useEffect(() => {
     if (!showEndDateTime) {
@@ -170,11 +168,13 @@ function CreateEventPage() {
               </FormHelperText>
             )}
 
-            <TextField
-              id="location"
-              label="location *"
+						<LocationInput setFormData={setFormData} />
+
+						<TextField
+              id="hostName"
+              label="host name"
               variant="outlined"
-              value={formData.location}
+              value={formData.hostName}
               onChange={handleChange}
               sx={commonInputStyles}
             />
@@ -184,15 +184,6 @@ function CreateEventPage() {
               label="description"
               variant="outlined"
               value={formData.description}
-              onChange={handleChange}
-              sx={commonInputStyles}
-            />
-
-            <TextField
-              id="host-name"
-              label="host name"
-              variant="outlined"
-              value={formData.hostName}
               onChange={handleChange}
               sx={commonInputStyles}
             />
