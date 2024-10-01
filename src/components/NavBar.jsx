@@ -41,7 +41,7 @@ function NavBar() {
 
   return (
     <AppBar
-      position="inherit"
+      position="static"
       sx={{ backgroundColor: "primaryLight", boxShadow: "none" }}
     >
       <Container sx={{ maxWidth: "100% !important" }}>

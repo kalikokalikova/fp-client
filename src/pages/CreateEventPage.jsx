@@ -39,8 +39,8 @@ function CreateEventPage() {
   const backgroundImage = `url(${Day_1})`;
   const [formData, setFormData] = useState({
     title: "",
-    startTime: dayjs().toISOString(),
-    endTime: null,
+    startDateTime: dayjs().toISOString(),
+    endDateTime: null,
     location: {},
     description: "",
     isShareable: true,
@@ -75,12 +75,9 @@ function CreateEventPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
 
     try {
-      const response = await api.post("/api/v1/events", {
-        body: formData,
-      });
+      const response = await api.post("/api/v1/events", formData);
 
       if (!response.ok) {
         throw new Error("Failed to create event");
