@@ -79,7 +79,7 @@ function CreateEventPage() {
     e.preventDefault();
 
     try {
-      const response = await api.post("/api/v1/events", formData);
+      const response = await api.post("/api/v1/events/", formData);
 
       if (response.error) {
         throw new Error("Failed to create event");
