@@ -4,14 +4,16 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../../api";
 import { Box, Button, Tab, Tabs, Typography } from "@mui/material";
 import QRCode from "react-qr-code";
+import { Day_1 } from "../../assets/cards";
+import { Container } from "@mui/system";
 
 export default function Event() {
+  const backgroundImage = `url(${Day_1})`;
   const params = useParams();
   const [value, setValue] = useState(0);
 
   const fetchEvent = async () => {
     const res = await api.get(`/api/v1/events/${params.eventId}`);
-    console.log(res);
     return res.data;
   };
 
@@ -50,20 +52,32 @@ export default function Event() {
   return (
     <>
       {(
-        <Box>
-          <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box sx={{
+          display: "flex",
+          justifyContent: "center",
+          backgroundImage: backgroundImage, // Add the image URL here
+          backgroundPosition: "bottom", // Centers the image
+        }}>
+          <Container sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: "15px",
+          backgroundColor: "white",
+          margin: "40px 27px",
+          width: "80%",
+          borderRadius: "6px",
+        }}>
+          <Box>
+            <Box>
               <Box>{data?.title}</Box>
-              <Box>
-                <Button>save</Button>
-                <Button>Share</Button>
-              </Box>
             </Box>
             <Box>
-              <QRCode
+              { data && ( <QRCode
                 value="https://www.geeksforgeeks.org/how-to-make-a-qr-code-generator-using-qrcode-js/"
                 style={{ height: "auto", maxWidth: "50%", width: "50%" }}
-              />
+              />)}
+
             </Box>
           </Box>
           <Box sx={{ width: "100%" }}>
@@ -104,8 +118,12 @@ export default function Event() {
               Item Three
             </EventTabPanel>
           </Box>
+          </Container>
         </Box>
+
+
       )}
+
     </>
   );
 }
