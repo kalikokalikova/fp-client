@@ -51,79 +51,79 @@ export default function Event() {
 
   return (
     <>
-      {(
-        <Box sx={{
-          display: "flex",
-          justifyContent: "center",
-          backgroundImage: backgroundImage, // Add the image URL here
-          backgroundPosition: "bottom", // Centers the image
-        }}>
-          <Container sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "15px",
-          backgroundColor: "white",
-          margin: "40px 27px",
-          width: "80%",
-          borderRadius: "6px",
-        }}>
-          <Box>
-            <Box>
-              <Box>{data?.title}</Box>
-            </Box>
-            <Box>
-              { data && ( <QRCode
-                value="https://www.geeksforgeeks.org/how-to-make-a-qr-code-generator-using-qrcode-js/"
-                style={{ height: "auto", maxWidth: "50%", width: "50%" }}
-              />)}
-
-            </Box>
-          </Box>
-          <Box sx={{ width: "100%" }}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <Tabs
-                value={value}
-                onChange={handleTabChange}
-                aria-label="basic tabs example"
-              >
-                <Tab label="Details" {...a11yProps(0)} />
-                <Tab label="Q&A" {...a11yProps(1)} />
-                <Tab label="Event Card" {...a11yProps(2)} />
-              </Tabs>
-            </Box>
-            <EventTabPanel value={value} index={0}>
-              <Box>
-                {isLoading ? (
-                  <>loading ...</>
-                ) : data ? (
-                  <>
-                    <Typography>When</Typography>
-                    <Typography>{data.startDateTime}</Typography>
-                    <Typography>icon Add to calendar link</Typography>
-                    <Typography>Where</Typography>
-                    <Typography>location breakdown goes here</Typography>
-                    <Typography>What</Typography>
-                    <Typography>{data.description}</Typography>
-                    <Typography>Organized by {data.hostName}</Typography>
-                    <Typography></Typography>
-                  </>
-                ) : (<>bad</>)}
-              </Box>
-            </EventTabPanel>
-            <EventTabPanel value={value} index={1}>
-              Item Two
-            </EventTabPanel>
-            <EventTabPanel value={value} index={2}>
-              Item Three
-            </EventTabPanel>
-          </Box>
+      {
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            backgroundImage: backgroundImage, // Add the image URL here
+            backgroundPosition: "bottom", // Centers the image
+          }}
+        >
+          <Container
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              padding: "15px",
+              backgroundColor: "white",
+              margin: "40px 27px",
+              width: "80%",
+              borderRadius: "6px",
+            }}
+          >
+            {isLoading ? (
+              <>Loading ...</>
+            ) : data ? (
+              <>
+                <Box>{data?.title}</Box>
+                <Box>
+                  {data && (
+                    <QRCode
+                      value="https://www.geeksforgeeks.org/how-to-make-a-qr-code-generator-using-qrcode-js/"
+                      style={{ height: "auto", maxWidth: "50%", width: "50%" }}
+                    />
+                  )}
+                </Box>
+                <Box sx={{ width: "100%" }}>
+                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                    <Tabs
+                      value={value}
+                      onChange={handleTabChange}
+                      aria-label="basic tabs example"
+                    >
+                      <Tab label="Details" {...a11yProps(0)} />
+                      <Tab label="Q&A" {...a11yProps(1)} />
+                      <Tab label="Event Card" {...a11yProps(2)} />
+                    </Tabs>
+                  </Box>
+                  <EventTabPanel value={value} index={0}>
+                    <Box>
+                      <Typography>When</Typography>
+                      <Typography>{data.startDateTime}</Typography>
+                      <Typography>icon Add to calendar link</Typography>
+                      <Typography>Where</Typography>
+                      <Typography>location breakdown goes here</Typography>
+                      <Typography>What</Typography>
+                      <Typography>{data.description}</Typography>
+                      <Typography>Organized by {data.hostName}</Typography>
+                      <Typography></Typography>
+                    </Box>
+                  </EventTabPanel>
+                  <EventTabPanel value={value} index={1}>
+                    Item Two
+                  </EventTabPanel>
+                  <EventTabPanel value={value} index={2}>
+                    Item Three
+                  </EventTabPanel>
+                </Box>
+              </>
+            ) : (
+              <>bad</>
+            )}
           </Container>
         </Box>
-
-
-      )}
-
+      }
     </>
   );
 }
