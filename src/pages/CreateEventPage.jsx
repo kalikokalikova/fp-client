@@ -86,9 +86,8 @@ function CreateEventPage() {
         throw new Error("Failed to create event");
       }
 
-      const data = await response.data;
-      console.log("Event created successfully", data);
-      navigate(`/events/${response.data.id}`);
+      console.log("Event created successfully", response);
+      navigate(`/events/${response.data.data.id}`);
     } catch (error) {
       console.error("Error creating event:", error);
     }

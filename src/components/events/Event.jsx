@@ -9,46 +9,16 @@ export default function Event() {
   const params = useParams();
   const [value, setValue] = useState(0);
 
-    // fetch event by event id
-    const fetchEvent = async () => {
-      return ({
-        allowQA: true,
-        description: "A really good description. Very very nice indeed.",
-        endDateTime: null,
-        endTime: "2024-11-16T12:20:00.000Z",
-        hostName: "Calico Seders",
-        isShareable: true,
-        location: {
-          locationName: "MiniGolf Course",
-          addressLine1: "123 Main Loop",
-          addressLine2: "Seattle, WA 98103, United States of America",
-          city: "Seattle",
-          country: "United States",
-          locationText:
-            "123 Main Loop Seattle, WA 98103, United States of America",
-          placeId:
-            "51e7ea7d995e965ec0593ea2f8e758d54740f00102f901027a350300000000c00203",
-          postcode: "98103",
-          state: "Washington",
-        },
-        startDateTime: "2024-11-15T21:34:37.255Z",
-        title: "Your mom",
-      })
-      try {
-        let response = await api.get(`/event/${params.eventId}`);
-        console.log("Here's the response: ", response);
-        // setEvent(response.data);
-      } catch (error) {
-        console.log("Here's the error: ", error);
-      }
-    };
+  const fetchEvent = async () => {
+    const res = await api.get(`/api/v1/events/${params.eventId}`);
+    console.log(res);
+    return res.data;
+  };
 
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["event", 1],
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["event", params.eventId],
     queryFn: fetchEvent,
   });
-
-
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
@@ -79,11 +49,11 @@ export default function Event() {
 
   return (
     <>
-      {data ? (
+      {(
         <Box>
           <Box sx={{ display: "flex", justifyContent: "space-around" }}>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Box>{data.title}</Box>
+              <Box>{data?.title}</Box>
               <Box>
                 <Button>save</Button>
                 <Button>Share</Button>
@@ -110,15 +80,21 @@ export default function Event() {
             </Box>
             <EventTabPanel value={value} index={0}>
               <Box>
-                <Typography>When</Typography>
-                <Typography>{data.startDateTime}</Typography>
-                <Typography>icon Add to calendar link</Typography>
-                <Typography>Where</Typography>
-                <Typography>location breakdown goes here</Typography>
-                <Typography>What</Typography>
-                <Typography>{data.description}</Typography>
-                <Typography>Organized by {data.hostName}</Typography>
-                <Typography></Typography>
+                {isLoading ? (
+                  <>loading ...</>
+                ) : data ? (
+                  <>
+                    <Typography>When</Typography>
+                    <Typography>{data.startDateTime}</Typography>
+                    <Typography>icon Add to calendar link</Typography>
+                    <Typography>Where</Typography>
+                    <Typography>location breakdown goes here</Typography>
+                    <Typography>What</Typography>
+                    <Typography>{data.description}</Typography>
+                    <Typography>Organized by {data.hostName}</Typography>
+                    <Typography></Typography>
+                  </>
+                ) : (<>bad</>)}
               </Box>
             </EventTabPanel>
             <EventTabPanel value={value} index={1}>
@@ -129,7 +105,7 @@ export default function Event() {
             </EventTabPanel>
           </Box>
         </Box>
-      ) : null}
+      )}
     </>
   );
 }
