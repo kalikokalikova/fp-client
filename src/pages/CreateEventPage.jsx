@@ -108,8 +108,7 @@ function CreateEventPage() {
           alignItems: "center",
           padding: "15px",
           backgroundColor: "white",
-          margin: "40px 27px",
-          width: "80%",
+          margin: "15px",
           borderRadius: "6px",
         }}
       >

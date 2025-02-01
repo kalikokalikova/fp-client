@@ -3,9 +3,11 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../api";
 import { Box, Button, Tab, Tabs, Typography } from "@mui/material";
+import TodayIcon from '@mui/icons-material/Today';
 import QRCode from "react-qr-code";
 import { Day_1 } from "../../assets/cards";
 import { Container } from "@mui/system";
+import { formattedTimestamp } from "../../utils/timestampFormatter";
 
 export default function Event() {
   const backgroundImage = `url(${Day_1})`;
@@ -56,7 +58,7 @@ export default function Event() {
           sx={{
             display: "flex",
             justifyContent: "center",
-            backgroundImage: backgroundImage, // Add the image URL here
+            backgroundImage: backgroundImage,
             backgroundPosition: "bottom", // Centers the image
           }}
         >
@@ -67,30 +69,27 @@ export default function Event() {
               alignItems: "center",
               padding: "15px",
               backgroundColor: "white",
-              margin: "40px 27px",
-              width: "80%",
+              margin: "15px",
               borderRadius: "6px",
             }}
           >
             {isLoading ? (
-              <>Loading ...</>
+              <Typography>Loading ...</Typography>
             ) : data ? (
               <>
-                <Box>{data?.title}</Box>
-                <Box>
-                  {data && (
-                    <QRCode
-                      value="https://www.geeksforgeeks.org/how-to-make-a-qr-code-generator-using-qrcode-js/"
-                      style={{ height: "auto", maxWidth: "50%", width: "50%" }}
-                    />
-                  )}
+                <Box sx={{ display: "flex", justifyContent: "space-between"}}>
+                  <Typography variant="h3">{data.title}</Typography>
+                  <QRCode
+                    value={`${import.meta.env.VITE_FRONTEND_URL}/events/${data.id}`}
+                    style={{ height: "auto", maxWidth: "25%" }}
+                  />
                 </Box>
+
                 <Box sx={{ width: "100%" }}>
                   <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                     <Tabs
                       value={value}
                       onChange={handleTabChange}
-                      aria-label="basic tabs example"
                     >
                       <Tab label="Details" {...a11yProps(0)} />
                       <Tab label="Q&A" {...a11yProps(1)} />
@@ -99,15 +98,16 @@ export default function Event() {
                   </Box>
                   <EventTabPanel value={value} index={0}>
                     <Box>
-                      <Typography>When</Typography>
-                      <Typography>{data.startDateTime}</Typography>
-                      <Typography>icon Add to calendar link</Typography>
-                      <Typography>Where</Typography>
-                      <Typography>location breakdown goes here</Typography>
-                      <Typography>What</Typography>
-                      <Typography>{data.description}</Typography>
-                      <Typography>Organized by {data.hostName}</Typography>
-                      <Typography></Typography>
+                      <Typography variant="h4" >When</Typography>
+                      <Typography>{formattedTimestamp(data.startDateTime).date}</Typography>
+                      <Typography gutterBottom>{formattedTimestamp(data.startDateTime).time}</Typography>
+                      <Typography variant="h4" gutterBottom sx={{ display: "flex", alignItems: "center"}}><TodayIcon/> Add to calendar</Typography>
+                      <Typography variant="h4" >Where</Typography>
+                      <Typography>{data.location.addressLine1}</Typography>
+                      <Typography gutterBottom>{data.location.addressLine2}</Typography>
+                      <Typography  variant="h4">What</Typography>
+                      <Typography gutterBottom>{data.description}</Typography>
+                      <Typography variant="h4" >Organized by {data.hostName}</Typography>
                     </Box>
                   </EventTabPanel>
                   <EventTabPanel value={value} index={1}>
@@ -117,9 +117,10 @@ export default function Event() {
                     Item Three
                   </EventTabPanel>
                 </Box>
+                <Button>Share</Button>
               </>
             ) : (
-              <>bad</>
+              <Typography>Unable to load this event.</Typography>
             )}
           </Container>
         </Box>
