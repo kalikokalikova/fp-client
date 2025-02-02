@@ -1,5 +1,4 @@
 export const formattedTimestamp = (timestamp) => {
-  console.log(timestamp);
 
   const date = new Date(timestamp);
 
@@ -9,16 +8,12 @@ export const formattedTimestamp = (timestamp) => {
     hour12: true,
   });
 
-  console.log(timeString);
-
   const dateString = date.toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
     month: "short",
     day: "numeric",
   });
-
-	console.log(dateString)
 
   return {
     time: timeString,

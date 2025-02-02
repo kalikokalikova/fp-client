@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { getLocationSuggestions } from "../utils/geoapify";
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import { Controller } from 'react-hook-form';
 
-function LocationInput({ setFormData }) {
+function LocationInput({ control, name }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
@@ -14,33 +15,45 @@ function LocationInput({ setFormData }) {
       try {
         const result = await getLocationSuggestions(query);
         if (result.error) {
-          // setError(result.message);
+          // handle error
         } else {
-          console.log(result)
-          setSuggestions(result)
+          setSuggestions(result);
         }
       } catch (err) {
-        // setError('Failed to fetch suggestions');
+        // handle error
       }
     };
     fetchSuggestions();
   }, [query]);
 
   return (
-    <>
-      <Autocomplete
-      disablePortal
-      getOptionLabel={(option) => option.full_address || ""}
-      options={suggestions}
-      onInputChange={(event, newInputValue) => {
-        setQuery(newInputValue);
-      }}
-      onChange={(event, newValue) => {
-        setFormData((prev) => ({ ...prev, location: newValue }));
-      }}
-      renderInput={(params) => <TextField {...params} label="location *" />}
+    <Controller
+      name={name}
+      rules={{ required: "Location is required" }}
+      control={control}
+      render={({ field, fieldState }) => (
+        <>
+          <Autocomplete
+            {...field}
+            disablePortal
+            getOptionLabel={(option) => option.full_address || ""}
+            options={suggestions}
+            onInputChange={(event, newInputValue) => setQuery(newInputValue)} // Update query on input change
+            onChange={(event, newValue) => {
+              field.onChange(newValue); // Set value in form data
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Location"
+                error={!!fieldState.error} // Show error state for validation
+                helperText={fieldState.error?.message} // Display error message
+              />
+            )}
+          />
+        </>
+      )}
     />
-    </>
   );
 }
 
