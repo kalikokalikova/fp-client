@@ -43,6 +43,7 @@ function CreateEventPage() {
   const {
     register,
     control,
+    setValue,
     handleSubmit,
     formState: { errors },
     setError,
@@ -57,7 +58,7 @@ function CreateEventPage() {
 
   useEffect(() => {
     if (!showEndDateTime) {
-      // setFormData((prev) => ({ ...prev, endTime: null })); TODO figure this out
+      setValue('end_date_time', null);
     }
   }, [showEndDateTime]);
 
