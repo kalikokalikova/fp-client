@@ -184,7 +184,10 @@ function CreateEventPage() {
               </FormHelperText>
             )}
 
-            {/* <LocationInput setFormData={setFormData} required /> */}
+            <LocationInput
+              control={control}
+              name="location"
+            />
 
             <TextField
               label="host name"
