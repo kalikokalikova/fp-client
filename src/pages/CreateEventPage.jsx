@@ -8,11 +8,9 @@ import {
   Typography,
   Container,
   Box,
-  FormControl,
   TextField,
   Button,
   FormControlLabel,
-  Checkbox,
   FormHelperText,
   Alert,
   Switch,
@@ -49,7 +47,7 @@ function CreateEventPage() {
     setError,
   } = useForm({
     defaultValues: {
-      allow_qa: true, // Default value for the checkbox
+      allow_qa: true,
     },
   });
   const [serverError, setServerError] = useState(null);
@@ -58,7 +56,7 @@ function CreateEventPage() {
 
   useEffect(() => {
     if (!showEndDateTime) {
-      setValue('end_date_time', null);
+      setValue("end_date_time", null);
     }
   }, [showEndDateTime]);
 
@@ -71,9 +69,9 @@ function CreateEventPage() {
     mutationFn: async (formData) => {
       return api.post("/api/v1/events/", formData);
     },
-    onSuccess: () => {
-      alert("Form submitted successfully!");
-      // navigate
+    onSuccess: (response) => {
+      // `response` is returned from mutationFn
+      navigate(`/events/${response.data.data.event.event_id}`);
     },
     onError: (error) => {
       if (error.response?.status === 400) {
@@ -90,7 +88,6 @@ function CreateEventPage() {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
     setServerError(null); // Reset server error on new submission
     mutation.mutate(data);
   };
