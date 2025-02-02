@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../api";
 import { Box, Button, Tab, Tabs, Typography } from "@mui/material";
-import TodayIcon from '@mui/icons-material/Today';
+import TodayIcon from "@mui/icons-material/Today";
 import QRCode from "react-qr-code";
 import { Day_1 } from "../../assets/cards";
 import { Container } from "@mui/system";
@@ -77,20 +77,19 @@ export default function Event() {
               <Typography>Loading ...</Typography>
             ) : data ? (
               <>
-                <Box sx={{ display: "flex", justifyContent: "space-between"}}>
-                  <Typography variant="h3">{data.title}</Typography>
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <Typography variant="h3">{data.event.title}</Typography>
                   <QRCode
-                    value={`${import.meta.env.VITE_FRONTEND_URL}/events/${data.id}`}
+                    value={`${import.meta.env.VITE_FRONTEND_URL}/events/${
+                      data.event.id
+                    }`}
                     style={{ height: "auto", maxWidth: "25%" }}
                   />
                 </Box>
 
                 <Box sx={{ width: "100%" }}>
                   <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                    <Tabs
-                      value={value}
-                      onChange={handleTabChange}
-                    >
+                    <Tabs value={value} onChange={handleTabChange}>
                       <Tab label="Details" {...a11yProps(0)} />
                       <Tab label="Q&A" {...a11yProps(1)} />
                       <Tab label="Event Card" {...a11yProps(2)} />
@@ -98,16 +97,46 @@ export default function Event() {
                   </Box>
                   <EventTabPanel value={value} index={0}>
                     <Box>
-                      <Typography variant="h4" >When</Typography>
-                      <Typography>{formattedTimestamp(data.startDateTime).date}</Typography>
-                      <Typography gutterBottom>{formattedTimestamp(data.startDateTime).time}</Typography>
-                      <Typography variant="h4" gutterBottom sx={{ display: "flex", alignItems: "center"}}><TodayIcon/> Add to calendar</Typography>
-                      <Typography variant="h4" >Where</Typography>
-                      <Typography>{data.location.addressLine1}</Typography>
-                      <Typography gutterBottom>{data.location.addressLine2}</Typography>
-                      <Typography  variant="h4">What</Typography>
-                      <Typography gutterBottom>{data.description}</Typography>
-                      <Typography variant="h4" >Organized by {data.hostName}</Typography>
+                      <Typography variant="h4">When</Typography>
+                      <Typography>
+                        {formattedTimestamp(data.event.start_date_time).date}
+                      </Typography>
+                      <Typography gutterBottom>
+                        {formattedTimestamp(data.event.start_date_time).time}
+                      </Typography>
+                      {data.event.end_date_time && (
+                        <>
+                          <Typography>
+                            {
+                              formattedTimestamp(data.event.end_date_time)
+                                .date
+                            }
+                          </Typography>
+                          <Typography gutterBottom>
+                            {
+                              formattedTimestamp(data.event.end_date_time)
+                                .time
+                            }
+                          </Typography>
+                        </>
+                      )}
+                      <Typography
+                        variant="h4"
+                        gutterBottom
+                        sx={{ display: "flex", alignItems: "center" }}
+                      >
+                        <TodayIcon /> Add to calendar
+                      </Typography>
+                      <Typography variant="h4">Where</Typography>
+                      <Typography>{data.location.address_1}</Typography>
+                      <Typography gutterBottom>
+                        {data.location.address_2}
+                      </Typography>
+                      <Typography variant="h4">What</Typography>
+                      <Typography gutterBottom>{data.event.description}</Typography>
+                      <Typography variant="h4">
+                        Organized by {data.event.host}
+                      </Typography>
                     </Box>
                   </EventTabPanel>
                   <EventTabPanel value={value} index={1}>
