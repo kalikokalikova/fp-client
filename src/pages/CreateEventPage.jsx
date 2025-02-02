@@ -116,7 +116,8 @@ function CreateEventPage() {
             </Typography>
             <TextField
               id="title"
-              label="event title *"
+              label="event title"
+              required
               variant="outlined"
               value={formData.title}
               onChange={handleChange}
@@ -126,7 +127,8 @@ function CreateEventPage() {
             <MobileDateTimePicker
               sx={commonInputStyles}
               id="startTime"
-              label="start time *"
+              label="start time"
+              required
               value={dayjs(formData.start_date_time)}
               onChange={(newValue) => handleDateChange("start_date_time", newValue)}
             />
@@ -163,7 +165,7 @@ function CreateEventPage() {
               </FormHelperText>
             )}
 
-						<LocationInput setFormData={setFormData} />
+						<LocationInput setFormData={setFormData} required />
 
 						<TextField
               id="host"
