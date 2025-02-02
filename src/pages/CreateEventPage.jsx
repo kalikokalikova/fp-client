@@ -41,15 +41,12 @@ function CreateEventPage() {
   const backgroundImage = `url(${Day_1})`;
   const [formData, setFormData] = useState({
     title: "",
-    startDateTime: dayjs().toISOString(),
-    endDateTime: null,
+    start_date_time: dayjs().toISOString(),
+    end_date_time: null,
     location: {},
     description: "",
-    isShareable: true,
-    allowQA: true,
-    hostName: "",
-    phone: "",
-    password: "",
+    allow_qa: true,
+    host: "",
   });
 
 
@@ -79,14 +76,14 @@ function CreateEventPage() {
     e.preventDefault();
 
     try {
-      const response = await api.post("/api/v1/events", formData);
+      const response = await api.post("/api/v1/events/", formData);
 
       if (response.error) {
         throw new Error("Failed to create event");
       }
 
       console.log("Event created successfully", response);
-      navigate(`/events/${response.data.data.id}`);
+      navigate(`/events/${response.data.data.event.event_id}`);
     } catch (error) {
       console.error("Error creating event:", error);
     }
@@ -130,16 +127,16 @@ function CreateEventPage() {
               sx={commonInputStyles}
               id="startTime"
               label="start time *"
-              value={dayjs(formData.startTime)}
-              onChange={(newValue) => handleDateChange("startTime", newValue)}
+              value={dayjs(formData.start_date_time)}
+              onChange={(newValue) => handleDateChange("start_date_time", newValue)}
             />
             {showEndDateTime ? (
               <>
                 <MobileDateTimePicker
                   id="endTime"
                   label="end time"
-                  value={formData.endTime ? dayjs(formData.endTime) : null}
-                  onChange={(newValue) => handleDateChange("endTime", newValue)}
+                  value={formData.endTime ? dayjs(formData.end_date_time) : null}
+                  onChange={(newValue) => handleDateChange("end_date_time", newValue)}
                   sx={commonInputStyles}
                 />
                 <FormHelperText
@@ -169,10 +166,10 @@ function CreateEventPage() {
 						<LocationInput setFormData={setFormData} />
 
 						<TextField
-              id="hostName"
+              id="host"
               label="host name"
               variant="outlined"
-              value={formData.hostName}
+              value={formData.host}
               onChange={handleChange}
               sx={commonInputStyles}
             />
@@ -193,21 +190,12 @@ function CreateEventPage() {
                 marginTop: "10px",
               }}
             >
+
               <FormControlLabel
                 control={
                   <Checkbox
-                    id="isShareable"
-                    checked={formData.isShareable}
-                    onChange={handleChange}
-                  />
-                }
-                label="Allow guests to share event"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    id="allowQA"
-                    checked={formData.allowQA}
+                    id="allow_qa"
+                    checked={formData.allow_qa}
                     onChange={handleChange}
                   />
                 }
@@ -215,34 +203,6 @@ function CreateEventPage() {
               />
             </Box>
           </Box>
-
-          {userLoggedIn && (
-            <Box className="user-info" sx={{ margin: "20px 0" }}>
-              <Typography variant="h3" gutterBottom>
-                Your Info
-              </Typography>
-              <TextField
-                id="phone"
-                label="phone number *"
-                variant="outlined"
-                value={formData.phone}
-                onChange={handleChange}
-                sx={commonInputStyles}
-              />
-
-              <FormControlLabel
-                sx={{ marginTop: "8px" }}
-                control={
-                  <Checkbox
-                    id="isShareable"
-                    checked={formData.isShareable}
-                    onChange={handleChange}
-                  />
-                }
-                label="I want to be able to edit this event after it's created."
-              />
-            </Box>
-          )}
 
           <Button type="submit" className="action-button" sx={{ marginTop: "20px" }}>
             create event
