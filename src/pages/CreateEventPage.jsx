@@ -15,6 +15,7 @@ import {
   Checkbox,
   FormHelperText,
   Alert,
+  Switch,
 } from "@mui/material";
 import api from "../api";
 import { Day_1 } from "../assets/cards";
@@ -184,10 +185,7 @@ function CreateEventPage() {
               </FormHelperText>
             )}
 
-            <LocationInput
-              control={control}
-              name="location"
-            />
+            <LocationInput control={control} name="location" />
 
             <TextField
               label="host name"
@@ -210,9 +208,15 @@ function CreateEventPage() {
                 marginTop: "10px",
               }}
             >
-              <FormControlLabel
-                control={<Checkbox {...register("allow_qa")} />}
-                label="Allow Q&A"
+              <Controller
+                name="allow_qa"
+                control={control}
+                render={({ field }) => (
+                  <FormControlLabel
+                    control={<Switch {...field} checked={field.value} />}
+                    label="Allow Q&A"
+                  />
+                )}
               />
             </Box>
           </Box>

@@ -29,6 +29,7 @@ function LocationInput({ control, name }) {
   return (
     <Controller
       name={name}
+      rules={{ required: "Location is required" }}
       control={control}
       render={({ field, fieldState }) => (
         <>
