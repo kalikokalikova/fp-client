@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { MobileDateTimePicker } from "@mui/x-date-pickers/MobileDateTimePicker";
 import { useNavigate } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import {
   Typography,
@@ -12,6 +14,7 @@ import {
   FormControlLabel,
   Checkbox,
   FormHelperText,
+  Alert,
 } from "@mui/material";
 import api from "../api";
 import { Day_1 } from "../assets/cards";
@@ -36,57 +39,58 @@ const commonInputStyles = {
 
 function CreateEventPage() {
   const navigate = useNavigate();
-  const userLoggedIn = false;
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm({
+    defaultValues: {
+      allow_qa: true, // Default value for the checkbox
+    },
+  });
+  const [serverError, setServerError] = useState(null);
   const [showEndDateTime, setShowEndDateTime] = useState(false);
   const backgroundImage = `url(${Day_1})`;
-  const [formData, setFormData] = useState({
-    title: "",
-    start_date_time: dayjs().toISOString(),
-    end_date_time: null,
-    location: {},
-    description: "",
-    allow_qa: true,
-    host: "",
-  });
-
 
   useEffect(() => {
     if (!showEndDateTime) {
-      setFormData((prev) => ({ ...prev, endTime: null }));
+      // setFormData((prev) => ({ ...prev, endTime: null })); TODO figure this out
     }
   }, [showEndDateTime]);
-
-  const handleChange = (e) => {
-    const { id, value, checked, type } = e.target;
-    setFormData({
-      ...formData,
-      [id]: type === "checkbox" ? checked : value,
-    });
-  };
-
-  const handleDateChange = (id, newValue) => {
-    setFormData((prev) => ({ ...prev, [id]: dayjs(newValue).toISOString() }));
-  };
 
   const handleEndDateTimeToggle = (e) => {
     setShowEndDateTime(!showEndDateTime);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await api.post("/api/v1/events/", formData);
-
-      if (response.error) {
-        throw new Error("Failed to create event");
+  // React Query mutation for form submission
+  const mutation = useMutation({
+    mutationFn: async (formData) => {
+      return api.post("/api/v1/events/", formData);
+    },
+    onSuccess: () => {
+      alert("Form submitted successfully!");
+      // navigate
+    },
+    onError: (error) => {
+      if (error.response?.status === 400) {
+        const backendErrors = error.response.data.errors;
+        if (backendErrors) {
+          Object.keys(backendErrors).forEach((field) => {
+            setError(field, { type: "server", message: backendErrors[field] });
+          });
+        }
+      } else {
+        setServerError("Something went wrong. Please try again.");
       }
+    },
+  });
 
-      console.log("Event created successfully", response);
-      navigate(`/events/${response.data.data.event.event_id}`);
-    } catch (error) {
-      console.error("Error creating event:", error);
-    }
+  const onSubmit = (data) => {
+    console.log(data);
+    setServerError(null); // Reset server error on new submission
+    mutation.mutate(data);
   };
 
   return (
@@ -109,37 +113,52 @@ function CreateEventPage() {
           borderRadius: "6px",
         }}
       >
-        <FormControl component="form" onSubmit={handleSubmit}>
+        <Box>
+          {serverError && <Alert severity="error">{serverError}</Alert>}
+        </Box>
+        <form component="form" onSubmit={handleSubmit(onSubmit)}>
           <Box className="event-info">
             <Typography variant="h3" gutterBottom>
               Event Info
             </Typography>
+
             <TextField
-              id="title"
               label="event title"
-              required
+              {...register("title", { required: "Title is required" })}
+              error={!!errors.title}
+              helperText={errors.title?.message}
               variant="outlined"
-              value={formData.title}
-              onChange={handleChange}
               sx={commonInputStyles}
             />
 
-            <MobileDateTimePicker
-              sx={commonInputStyles}
-              id="startTime"
-              label="start time"
-              required
-              value={dayjs(formData.start_date_time)}
-              onChange={(newValue) => handleDateChange("start_date_time", newValue)}
+            <Controller
+              name="start_date_time"
+              control={control}
+              defaultValue={dayjs()}
+              rules={{
+                required: "Start time is required.",
+              }}
+              render={({ field }) => (
+                <MobileDateTimePicker
+                  {...field} // This binds the field value and event handling
+                  label="Start time"
+                  sx={commonInputStyles}
+                />
+              )}
             />
+
             {showEndDateTime ? (
               <>
-                <MobileDateTimePicker
-                  id="endTime"
-                  label="end time"
-                  value={formData.endTime ? dayjs(formData.end_date_time) : null}
-                  onChange={(newValue) => handleDateChange("end_date_time", newValue)}
-                  sx={commonInputStyles}
+                <Controller
+                  name="end_date_time"
+                  control={control}
+                  render={({ field }) => (
+                    <MobileDateTimePicker
+                      {...field}
+                      label="End time"
+                      sx={commonInputStyles}
+                    />
+                  )}
                 />
                 <FormHelperText
                   sx={{
@@ -165,23 +184,19 @@ function CreateEventPage() {
               </FormHelperText>
             )}
 
-						<LocationInput setFormData={setFormData} required />
+            {/* <LocationInput setFormData={setFormData} required /> */}
 
-						<TextField
-              id="host"
+            <TextField
               label="host name"
               variant="outlined"
-              value={formData.host}
-              onChange={handleChange}
+              {...register("host")}
               sx={commonInputStyles}
             />
 
             <TextField
-              id="description"
               label="description"
               variant="outlined"
-              value={formData.description}
-              onChange={handleChange}
+              {...register("description")}
               sx={commonInputStyles}
             />
 
@@ -192,24 +207,22 @@ function CreateEventPage() {
                 marginTop: "10px",
               }}
             >
-
               <FormControlLabel
-                control={
-                  <Checkbox
-                    id="allow_qa"
-                    checked={formData.allow_qa}
-                    onChange={handleChange}
-                  />
-                }
+                control={<Checkbox {...register("allow_qa")} />}
                 label="Allow Q&A"
               />
             </Box>
           </Box>
 
-          <Button type="submit" className="action-button" sx={{ marginTop: "20px" }}>
-            create event
+          <Button
+            type="submit"
+            className="action-button"
+            sx={{ marginTop: "20px" }}
+            disabled={mutation.isLoading}
+          >
+            {mutation.isLoading ? "Submitting..." : "Submit"}
           </Button>
-        </FormControl>
+        </form>
       </Container>
     </Box>
   );
