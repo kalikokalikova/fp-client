@@ -18,14 +18,14 @@ export const getLocationSuggestions = async (query) => {
 
     const result = await response.json();
     const suggestions = result.features.map((feature) => ({
-			placeId: feature.properties.place_id,
-      addressLine1: feature.properties.address_line1,
-      addressLine2: feature.properties.address_line2,
+			place_id: feature.properties.place_id,
+      address_1: feature.properties.address_line1,
+      address_2: feature.properties.address_line2,
       city: feature.properties.city,
 			state: feature.properties.state,
-			postcode: feature.properties.postcode,
+			zip: feature.properties.postcode,
       country: feature.properties.country,
-			locationText: `${feature.properties.address_line1} ${feature.properties.address_line2}`
+			full_address: `${feature.properties.address_line1} ${feature.properties.address_line2}`
     }));
 
     return suggestions;

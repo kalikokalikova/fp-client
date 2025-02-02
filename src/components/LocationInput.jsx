@@ -30,7 +30,7 @@ function LocationInput({ setFormData }) {
     <>
       <Autocomplete
       disablePortal
-      getOptionLabel={(option) => option.locationText || ""}
+      getOptionLabel={(option) => option.full_address || ""}
       options={suggestions}
       onInputChange={(event, newInputValue) => {
         setQuery(newInputValue);
