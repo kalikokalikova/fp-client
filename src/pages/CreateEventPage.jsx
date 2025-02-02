@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MobileDateTimePicker } from "@mui/x-date-pickers/MobileDateTimePicker";
+import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import {
   Typography,
@@ -34,6 +35,7 @@ const commonInputStyles = {
 };
 
 function CreateEventPage() {
+  const navigate = useNavigate();
   const userLoggedIn = false;
   const [showEndDateTime, setShowEndDateTime] = useState(false);
   const backgroundImage = `url(${Day_1})`;
@@ -79,12 +81,12 @@ function CreateEventPage() {
     try {
       const response = await api.post("/api/v1/events", formData);
 
-      if (!response.ok) {
+      if (response.error) {
         throw new Error("Failed to create event");
       }
 
-      const data = await response.json();
-      console.log("Event created successfully", data);
+      console.log("Event created successfully", response);
+      navigate(`/events/${response.data.data.id}`);
     } catch (error) {
       console.error("Error creating event:", error);
     }
@@ -106,8 +108,7 @@ function CreateEventPage() {
           alignItems: "center",
           padding: "15px",
           backgroundColor: "white",
-          margin: "40px 27px",
-          width: "80%",
+          margin: "15px",
           borderRadius: "6px",
         }}
       >
