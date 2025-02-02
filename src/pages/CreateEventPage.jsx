@@ -36,7 +36,6 @@ const commonInputStyles = {
 
 function CreateEventPage() {
   const navigate = useNavigate();
-  const userLoggedIn = false;
   const [showEndDateTime, setShowEndDateTime] = useState(false);
   const backgroundImage = `url(${Day_1})`;
   const [formData, setFormData] = useState({
@@ -52,7 +51,7 @@ function CreateEventPage() {
 
   useEffect(() => {
     if (!showEndDateTime) {
-      setFormData((prev) => ({ ...prev, endTime: null }));
+      setFormData((prev) => ({ ...prev, end_date_time: null }));
     }
   }, [showEndDateTime]);
 
