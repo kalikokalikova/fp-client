@@ -12,9 +12,6 @@ function QandAs({ qAndAData }) {
 
   const { eventId } = useParams();
 
-  useEffect(() => {
-  },[questions])
-
   const handleAskQuestion = () => {
     setQuestionInputOpen(true);
   };
@@ -38,8 +35,11 @@ function QandAs({ qAndAData }) {
       return api.post(`api/v1/events/${eventId}/qa/`, questionText);
     },
     onSuccess: (response) => {
-      console.log("question response: ", response)
-      setQuestions((prevQuestions) => [...prevQuestions, response.data]);
+      setQuestions((prevQuestions) =>
+        [...prevQuestions, response.data].sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        )
+      );
       handleCancelQuestion();
     },
     onError: (error) => {

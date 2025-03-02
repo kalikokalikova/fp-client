@@ -20,7 +20,7 @@ import Divider from "@mui/material/Divider";
 function Question({ question }) {
   const [answerInputOpen, setAnswerInputOpen] = useState(false);
   const [answerText, setAnswerText] = useState("");
-  const [answers, setAnswers] = useState(question.answers)
+  const [answers, setAnswers] = useState(question.answers || [])
   const { eventId } = useParams();
   console.log("question: ", question)
 
@@ -38,7 +38,7 @@ function Question({ question }) {
   };
 
   const handleSubmitAnswer = () => {
-    let request = { "question_id": question.question_id, "answer_text": answerText}
+    let request = { "question_id": question.id, "answer_text": answerText}
     mutation.mutate(request);
   };
 
@@ -47,7 +47,11 @@ function Question({ question }) {
       return api.post(`api/v1/events/${eventId}/qa/`, request);
     },
     onSuccess: (response) => {
-      setAnswers((prevAnswers) => [...prevAnswers, response.data]);
+      setAnswers((prevAnswers) =>
+        [...prevAnswers, response.data].sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        )
+      );
       handleCancelAnswer();
     },
     onError: (error) => {
@@ -66,7 +70,7 @@ function Question({ question }) {
           <Typography component="span">{question.question_text}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {answers && (
+          {answers.length > 0 ? (
             <List>
               {answers.map((answer) => (
                 <ListItem>
@@ -74,7 +78,7 @@ function Question({ question }) {
                 </ListItem>
               ))}
             </List>
-          )}
+          ) : (<Typography>No answers yet</Typography>)}
           {answerInputOpen ? (
         <Box>
           <TextField label="Your answer" variant="outlined" value={answerText} onChange={handleAnswerChange} />
