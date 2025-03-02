@@ -20,8 +20,6 @@ export default function EventPage() {
     queryFn: fetchEvent,
   });
 
-  console.log("adat: ", data);
-
   return (
     <>
       {

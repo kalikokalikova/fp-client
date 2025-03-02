@@ -1,16 +1,19 @@
 import { Container, Box, Typography, Button, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import Question from "./Question";
 import api from "../../api";
 
 function QandAs({ qAndAData }) {
   const [questionInputOpen, setQuestionInputOpen] = useState(false);
   const [questionText, setQuestionText] = useState("");
-  const [answerInputOpen, setAnswerInputOpen] = useState(false);
-  const [answerText, setAnswerText] = useState("");
-  console.log(qAndAData);
+  const [questions, setQuestions] = useState(qAndAData)
+
   const { eventId } = useParams();
+
+  useEffect(() => {
+  },[questions])
 
   const handleAskQuestion = () => {
     setQuestionInputOpen(true);
@@ -26,23 +29,8 @@ function QandAs({ qAndAData }) {
   }
 
   const handleSubmitQuestion = () => {
-    console.log(questionText)
     let request = { "question_text": questionText}
     mutation.mutate(request);
-    // make api call
-  };
-
-  const handleAnswerQuestion = () => {
-    // do something
-  };
-
-  const handleCancelAnswer = () => {
-    // close Answer input
-    // set answer input text to empty string\
-  };
-
-  const submitAnswer = () => {
-    // make api call
   };
 
   const mutation = useMutation({
@@ -50,7 +38,9 @@ function QandAs({ qAndAData }) {
       return api.post(`api/v1/events/${eventId}/qa/`, questionText);
     },
     onSuccess: (response) => {
-      console.log("success response: ", response)
+      console.log("question response: ", response)
+      setQuestions((prevQuestions) => [...prevQuestions, response.data]);
+      handleCancelQuestion();
     },
     onError: (error) => {
       console.error(error);
@@ -62,21 +52,28 @@ function QandAs({ qAndAData }) {
       <Typography>Q&A</Typography>
       <Typography>Anyone can ask, anyone can answer.</Typography>
       <Button onClick={handleAskQuestion}>ask a question</Button>
-      {qAndAData.length === 0 ? (
+      {questionInputOpen && (
+          <Box>
+            <TextField label="Your question" variant="outlined" value={questionText} onChange={handleQuestionChange} />
+            <Button onClick={handleCancelQuestion}>Cancel</Button>
+            <Button onClick={handleSubmitQuestion}>Post</Button>
+          </Box>
+        )}
+      {questions.length === 0 ? (
         <Box>
           <Typography>No questions yet.</Typography>
 
         </Box>
       ) : (
-        <Box>Yes Q</Box> // Question components go here
+        <>
+
+        <Box>{questions.map((question) => (
+          <Question question={question}/>
+        ))}</Box>
+        </>
       )}
-      {questionInputOpen && (
-        <Box>
-          <TextField label="Your question" variant="outlined" value={questionText} onChange={handleQuestionChange} />
-          <Button onClick={handleCancelQuestion}>Cancel</Button>
-          <Button onClick={handleSubmitQuestion}>Post</Button>
-        </Box>
-      )}
+
+
     </Container>
   );
 }
