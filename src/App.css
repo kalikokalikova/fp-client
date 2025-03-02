@@ -1,6 +1,9 @@
 body {
     background-color: #f5f5f5;
-    font-family: 'Libre Franklin', sans-serif;
+    font-family: "Reddit Sans Condensed", sans-serif;
+  font-optical-sizing: auto;
+  /* font-weight: <weight>; */
+  font-style: normal;
 }
 .action-button {
     background-color: gray !important;

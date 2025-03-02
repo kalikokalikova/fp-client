@@ -16,7 +16,6 @@ import {
   Switch,
 } from "@mui/material";
 import api from "../api";
-import { Day_1 } from "../assets/cards";
 import LocationInput from "../components/LocationInput";
 
 const commonInputStyles = {
@@ -52,7 +51,6 @@ function CreateEventPage() {
   });
   const [serverError, setServerError] = useState(null);
   const [showEndDateTime, setShowEndDateTime] = useState(false);
-  const backgroundImage = `url(${Day_1})`;
 
   useEffect(() => {
     if (!showEndDateTime) {
@@ -93,34 +91,13 @@ function CreateEventPage() {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        backgroundImage: backgroundImage, // Add the image URL here
-        backgroundPosition: "bottom", // Centers the image
-      }}
-    >
-      <Container
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "15px",
-          backgroundColor: "white",
-          margin: "15px",
-          borderRadius: "6px",
-        }}
-      >
+    <Box>
+      <Container>
         <Box>
           {serverError && <Alert severity="error">{serverError}</Alert>}
         </Box>
         <form component="form" onSubmit={handleSubmit(onSubmit)}>
-          <Box className="event-info">
-            <Typography variant="h3" gutterBottom>
-              Event Info
-            </Typography>
-
+          <Box>
             <TextField
               label="event title"
               {...register("title", { required: "Title is required" })}
