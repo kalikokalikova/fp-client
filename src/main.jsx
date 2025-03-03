@@ -11,8 +11,9 @@ import {
 } from "react-router-dom";
 import LandingPage from './pages/LandingPage.jsx';
 import EventsPage from './pages/EventsPage.jsx';
+import EventPage from './pages/EventPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
-import Event from './components/events/Event.jsx';
+import Event from './components/events/EventInfo.jsx';
 import CreateEventPage from './pages/CreateEventPage.jsx';
 
 const router = createBrowserRouter([
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/events/:eventId",
-        element: <Event/>
+        element: <EventPage/>
       }
     ]
   },
