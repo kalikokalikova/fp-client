@@ -22,7 +22,6 @@ function Question({ question }) {
   const [answerText, setAnswerText] = useState("");
   const [answers, setAnswers] = useState(question.answers || [])
   const { eventId } = useParams();
-  console.log("question: ", question)
 
   const handleAnswerQuestion = () => {
     setAnswerInputOpen(true);

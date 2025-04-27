@@ -7,17 +7,30 @@ import QRCode from "react-qr-code";
 import { Container } from "@mui/system";
 import { formattedTimestamp } from "../../utils/timestampFormatter";
 import { ResizedTextLine } from "../ResizedTextLine";
+import { DynamicResizedText } from "../DynamicResizedText";
 
 export default function EventInfo({ data }) {
+  const textLines = [
+    "This is a very, very long line of text that will likely be wider than 400px initially.",
+    "An even longer line to really test the resizing.",
+    "A short one again.",
+  ];
+  const [containerWidth, setContainerWidth] = useState(400);
 
-  let lines = ["This is a new event", "It happens on Sunday", "let's go"]
-  let containerWidth = "600px"
+  useEffect(() => {
+    const handleResize = () => {
+      setContainerWidth(300); // Example dynamic width
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
-    <div style={{ width: containerWidth, border: '1px solid black' }}>
-      {lines.map((line, index) => (
-        <ResizedTextLine key={index} text={line} containerWidth={containerWidth} />
-      ))}
+    <div style={{ width: containerWidth, border: "1px solid black" }}>
+        <DynamicResizedText lines={textLines} containerWidth={containerWidth} />
     </div>
   );
 

@@ -2,45 +2,44 @@ import React, { useState, useEffect, useRef } from 'react';
 
 export function ResizedTextLine({ text, containerWidth }) {
   const textRef = useRef(null);
-  const [fontSize, setFontSize] = useState(16); // Initial font size
+  const [fontSize, setFontSize] = useState(16);
+
+  const measureTextWidth = (text, font) => {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    context.font = font;
+    const metrics = context.measureText(text);
+    return metrics.width;
+  };
 
   useEffect(() => {
-    if (!textRef.current || !containerWidth) {
+    if (!textRef.current || !containerWidth || !text) {
       return;
     }
 
-    const measureTextWidth = () => {
-      const element = textRef.current;
-      if (element) {
-        const style = getComputedStyle(element);
-        return parseFloat(style.width);
-      }
-      return 0;
-    };
-
     let currentFontSize = 16;
-    let textWidth = 0;
-    const tolerance = 1; // Pixel tolerance for fitting
+    const fontFamily = getComputedStyle(textRef.current).fontFamily;
+    let textWidth = measureTextWidth(text, `${currentFontSize}px ${fontFamily}`);
+    const tolerance = 0.5; // Reduced tolerance for a tighter fit
+    const maxIterations = 500; // Increased max iterations
+    let iterations = 0;
+    const fontSizeIncrement = 0.2; // Increased font size increment
 
-    // Initial measurement
-    textRef.current.style.fontSize = `${currentFontSize}px`;
-    textWidth = measureTextWidth();
+    console.log(`Initial width: ${textWidth}, target: ${containerWidth}`);
 
-    let attempts = 0;
-    const maxAttempts = 100; // Prevent infinite loops
-
-    while (Math.abs(textWidth - containerWidth) > tolerance && attempts < maxAttempts) {
+    while (Math.abs(textWidth - containerWidth) > tolerance && iterations < maxIterations && currentFontSize < containerWidth * 2) { // Added a max font size condition
+      console.log(`Iteration ${iterations}, currentFontSize: ${currentFontSize}, textWidth: ${textWidth}`);
       if (textWidth < containerWidth) {
-        currentFontSize += 0.1; // Increment font size
+        currentFontSize += fontSizeIncrement;
       } else {
-        currentFontSize -= 0.1; // Decrement font size
+        currentFontSize -= fontSizeIncrement;
       }
-      textRef.current.style.fontSize = `${currentFontSize}px`;
-      textWidth = measureTextWidth();
-      attempts++;
+      textWidth = measureTextWidth(text, `${currentFontSize}px ${fontFamily}`);
+      iterations++;
     }
 
     setFontSize(currentFontSize);
+    console.log(`Final fontSize: ${currentFontSize}, final width: ${textWidth}`);
 
   }, [text, containerWidth]);
 
