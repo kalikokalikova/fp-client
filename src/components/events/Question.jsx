@@ -37,7 +37,7 @@ function Question({ question }) {
   };
 
   const handleSubmitAnswer = () => {
-    let request = { "question_id": question.id, "answer_text": answerText}
+    let request = { "id": question.id, "answer_text": answerText}
     mutation.mutate(request);
   };
 
