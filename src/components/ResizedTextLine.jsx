@@ -20,10 +20,10 @@ export function ResizedTextLine({ text, containerWidth }) {
     let currentFontSize = 16;
     const fontFamily = getComputedStyle(textRef.current).fontFamily;
     let textWidth = measureTextWidth(text, `${currentFontSize}px ${fontFamily}`);
-    const tolerance = 0.5; // Reduced tolerance for a tighter fit
+    const tolerance = 1; // Reduced tolerance for a tighter fit
     const maxIterations = 500; // Increased max iterations
     let iterations = 0;
-    const fontSizeIncrement = 0.2; // Increased font size increment
+    const fontSizeIncrement = 0.3; // Increased font size increment
 
     console.log(`Initial width: ${textWidth}, target: ${containerWidth}`);
 

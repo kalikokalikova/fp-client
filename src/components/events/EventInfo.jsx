@@ -7,7 +7,6 @@ import QRCode from "react-qr-code";
 import { Container } from "@mui/system";
 import { formattedTimestamp } from "../../utils/timestampFormatter";
 import { ResizedTextLine } from "../ResizedTextLine";
-import { DynamicResizedText } from "../DynamicResizedText";
 
 export default function EventInfo({ data }) {
   const textLines = [
@@ -22,61 +21,55 @@ export default function EventInfo({ data }) {
       setContainerWidth(300); // Example dynamic width
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
-    <div style={{ width: containerWidth, border: "1px solid black" }}>
-        <DynamicResizedText lines={textLines} containerWidth={containerWidth} />
-    </div>
+    <Container
+      sx={{
+        textTransform: "uppercase",
+      }}
+    >
+      <Box>
+        <ResizedTextLine text={data.event.title} containerWidth={containerWidth} />
+      </Box>
+      <Box>
+        <ResizedTextLine
+          text={formattedTimestamp(data.event.start_date_time).date}
+          containerWidth={containerWidth}
+        />
+        <Typography gutterBottom>
+          {formattedTimestamp(data.event.start_date_time).time}
+        </Typography>
+        {data.event.end_date_time && (
+          <>
+            <Typography>
+              {formattedTimestamp(data.event.end_date_time).date}
+            </Typography>
+            <Typography gutterBottom>
+              {formattedTimestamp(data.event.end_date_time).time}
+            </Typography>
+          </>
+        )}
+        <Typography gutterBottom>Add to calendar</Typography>
+      </Box>
+      <Box>
+        <Typography>{data.location.address_1}</Typography>
+        <Typography gutterBottom>{data.location.address_2}</Typography>
+      </Box>
+      <Box>
+        <Typography gutterBottom>{data.event.description}</Typography>
+      </Box>
+      <Box>
+        <Typography>Organized by {data.event.host}</Typography>
+      </Box>
+      <Box>
+        <Button>Save</Button>
+        <Button>Share</Button>
+      </Box>
+    </Container>
   );
-
-  // return (
-  //   <Container>
-  //     <Box sx={{ textTransform: "uppercase", display: "flex", justifyContent: "space-between"}}>
-  //       {/* <Typography sx={{ textTransform: "uppercase"}}>{data.event.title}</Typography> */}
-  //       <span>This</span>
-  //       <span>Is</span>
-  //       <span>A</span>
-  //       <span>New</span>
-  //       <span>Event</span>
-  //     </Box>
-  //     <Box>
-  //       <Typography>
-  //         {formattedTimestamp(data.event.start_date_time).date}
-  //       </Typography>
-  //       <Typography gutterBottom>
-  //         {formattedTimestamp(data.event.start_date_time).time}
-  //       </Typography>
-  //       {data.event.end_date_time && (
-  //         <>
-  //           <Typography>
-  //             {formattedTimestamp(data.event.end_date_time).date}
-  //           </Typography>
-  //           <Typography gutterBottom>
-  //             {formattedTimestamp(data.event.end_date_time).time}
-  //           </Typography>
-  //         </>
-  //       )}
-  //       <Typography gutterBottom>Add to calendar</Typography>
-  //     </Box>
-  //     <Box>
-  //       <Typography>{data.location.address_1}</Typography>
-  //       <Typography gutterBottom>{data.location.address_2}</Typography>
-  //     </Box>
-  //     <Box>
-  //       <Typography gutterBottom>{data.event.description}</Typography>
-  //     </Box>
-  //     <Box>
-  //       <Typography>Organized by {data.event.host}</Typography>
-  //     </Box>
-  //     <Box>
-  //       <Button>Save</Button>
-  //       <Button>Share</Button>
-  //     </Box>
-  //   </Container>
-  // );
 }
