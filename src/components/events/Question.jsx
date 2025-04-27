@@ -22,7 +22,6 @@ function Question({ question }) {
   const [answerText, setAnswerText] = useState("");
   const [answers, setAnswers] = useState(question.answers || [])
   const { eventId } = useParams();
-  console.log("question: ", question)
 
   const handleAnswerQuestion = () => {
     setAnswerInputOpen(true);
@@ -38,7 +37,7 @@ function Question({ question }) {
   };
 
   const handleSubmitAnswer = () => {
-    let request = { "question_id": question.id, "answer_text": answerText}
+    let request = { "id": question.id, "answer_text": answerText}
     mutation.mutate(request);
   };
 
