@@ -1,12 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 
-export function ResizedTextLine({ text, containerWidth, initialFontSize = 16 }) {
+export function ResizedTextLine({
+  text,
+  containerWidth,
+  initialFontSize = 16,
+}) {
   const textRef = useRef(null);
-  const [letterSpacing, setLetterSpacing] = useState(0);
+  const [letterSpacingPx, setLetterSpacingPx] = useState(0);
 
   const measureTextWidth = (text, font) => {
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
     context.font = font;
     const metrics = context.measureText(text);
     return metrics.width;
@@ -19,36 +23,58 @@ export function ResizedTextLine({ text, containerWidth, initialFontSize = 16 }) 
 
     const fontFamily = getComputedStyle(textRef.current).fontFamily;
     const initialFont = `${initialFontSize}px ${fontFamily}`;
-    let currentLetterSpacing = 0;
-    const tolerance = 0.5;
+    const baseTextWidth = measureTextWidth(text, initialFont);
+    let currentLetterSpacingPx = 0;
+    const tolerance = 0.1;
     const maxIterations = 500;
     let iterations = 0;
-    const letterSpacingIncrement = 0.05; // Adjust for finer control
+    const letterSpacingIncrementPx = 0.5;
+    const characterCount = text.length;
 
-    console.log(`Initial width (no spacing): ${measureTextWidth(text, initialFont)}, target: ${containerWidth}, initialFontSize: ${initialFontSize}`);
+    console.log(
+      `Initial width (no spacing): ${baseTextWidth}, target: ${containerWidth}, initialFontSize: ${initialFontSize}, characterCount: ${characterCount}`
+    );
 
-    while (Math.abs(measureTextWidth(text, `${initialFontSize}px ${fontFamily}`) + currentLetterSpacing * initialFontSize * text.length - containerWidth) > tolerance && iterations < maxIterations && currentLetterSpacing < containerWidth * 2) {
-      console.log(`Iteration ${iterations}, currentLetterSpacing: ${currentLetterSpacing}, estimated width: ${measureTextWidth(text, `${initialFontSize}px ${fontFamily}`) + currentLetterSpacing * initialFontSize * text.length}`);
-      if (measureTextWidth(text, `${initialFontSize}px ${fontFamily}`) + currentLetterSpacing * initialFontSize * text.length < containerWidth) {
-        currentLetterSpacing += letterSpacingIncrement;
+    while (
+      Math.abs(
+        baseTextWidth +
+          currentLetterSpacingPx * (characterCount - 1) -
+          containerWidth
+      ) > tolerance &&
+      iterations < maxIterations &&
+      currentLetterSpacingPx < containerWidth * 2
+    ) {
+      console.log(
+        `Iteration ${iterations}, currentLetterSpacingPx: ${currentLetterSpacingPx}, estimated width: ${
+          baseTextWidth + currentLetterSpacingPx * (characterCount - 1)
+        }`
+      );
+      if (
+        baseTextWidth + currentLetterSpacingPx * (characterCount - 1) <
+        containerWidth
+      ) {
+        currentLetterSpacingPx += letterSpacingIncrementPx;
       } else {
-        currentLetterSpacing -= letterSpacingIncrement;
+        currentLetterSpacingPx -= letterSpacingIncrementPx;
       }
       iterations++;
     }
 
-    setLetterSpacing(currentLetterSpacing);
-    console.log(`Final letterSpacing: ${currentLetterSpacing}, estimated final width: ${measureTextWidth(text, `${initialFontSize}px ${fontFamily}`) + currentLetterSpacing * initialFontSize * text.length}`);
-
+    setLetterSpacingPx(currentLetterSpacingPx);
+    console.log(
+      `Final letterSpacingPx: ${currentLetterSpacingPx}, estimated final width: ${
+        baseTextWidth + currentLetterSpacingPx * (characterCount - 1)
+      }`
+    );
   }, [text, containerWidth, initialFontSize]);
 
   return (
     <div
       ref={textRef}
       style={{
-        whiteSpace: 'nowrap',
+        whiteSpace: "nowrap",
         fontSize: `${initialFontSize}px`,
-        letterSpacing: `${letterSpacing}em`,
+        letterSpacing: `${letterSpacingPx}px`,
       }}
     >
       {text}

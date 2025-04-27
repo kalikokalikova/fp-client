@@ -26,7 +26,7 @@ export default function EventPage() {
       {
         <Box
           sx={{
-            backgroundColor: "red",
+            backgroundColor: "#2b297c",
             paddingBottom: "200px",
             color: "white",
           }}
