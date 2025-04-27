@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-export function ResizedTextLine({ text, containerWidth }) {
+export function ResizedTextLine({ text, containerWidth, initialFontSize = 16 }) {
   const textRef = useRef(null);
-  const [fontSize, setFontSize] = useState(16);
+  const [letterSpacing, setLetterSpacing] = useState(0);
 
   const measureTextWidth = (text, font) => {
     const canvas = document.createElement('canvas');
@@ -17,34 +17,40 @@ export function ResizedTextLine({ text, containerWidth }) {
       return;
     }
 
-    let currentFontSize = 16;
     const fontFamily = getComputedStyle(textRef.current).fontFamily;
-    let textWidth = measureTextWidth(text, `${currentFontSize}px ${fontFamily}`);
-    const tolerance = 1; // Reduced tolerance for a tighter fit
-    const maxIterations = 500; // Increased max iterations
+    const initialFont = `${initialFontSize}px ${fontFamily}`;
+    let currentLetterSpacing = 0;
+    const tolerance = 0.5;
+    const maxIterations = 500;
     let iterations = 0;
-    const fontSizeIncrement = 0.3; // Increased font size increment
+    const letterSpacingIncrement = 0.05; // Adjust for finer control
 
-    console.log(`Initial width: ${textWidth}, target: ${containerWidth}`);
+    console.log(`Initial width (no spacing): ${measureTextWidth(text, initialFont)}, target: ${containerWidth}, initialFontSize: ${initialFontSize}`);
 
-    while (Math.abs(textWidth - containerWidth) > tolerance && iterations < maxIterations && currentFontSize < containerWidth * 2) { // Added a max font size condition
-      console.log(`Iteration ${iterations}, currentFontSize: ${currentFontSize}, textWidth: ${textWidth}`);
-      if (textWidth < containerWidth) {
-        currentFontSize += fontSizeIncrement;
+    while (Math.abs(measureTextWidth(text, `${initialFontSize}px ${fontFamily}`) + currentLetterSpacing * initialFontSize * text.length - containerWidth) > tolerance && iterations < maxIterations && currentLetterSpacing < containerWidth * 2) {
+      console.log(`Iteration ${iterations}, currentLetterSpacing: ${currentLetterSpacing}, estimated width: ${measureTextWidth(text, `${initialFontSize}px ${fontFamily}`) + currentLetterSpacing * initialFontSize * text.length}`);
+      if (measureTextWidth(text, `${initialFontSize}px ${fontFamily}`) + currentLetterSpacing * initialFontSize * text.length < containerWidth) {
+        currentLetterSpacing += letterSpacingIncrement;
       } else {
-        currentFontSize -= fontSizeIncrement;
+        currentLetterSpacing -= letterSpacingIncrement;
       }
-      textWidth = measureTextWidth(text, `${currentFontSize}px ${fontFamily}`);
       iterations++;
     }
 
-    setFontSize(currentFontSize);
-    console.log(`Final fontSize: ${currentFontSize}, final width: ${textWidth}`);
+    setLetterSpacing(currentLetterSpacing);
+    console.log(`Final letterSpacing: ${currentLetterSpacing}, estimated final width: ${measureTextWidth(text, `${initialFontSize}px ${fontFamily}`) + currentLetterSpacing * initialFontSize * text.length}`);
 
-  }, [text, containerWidth]);
+  }, [text, containerWidth, initialFontSize]);
 
   return (
-    <div ref={textRef} style={{ whiteSpace: 'nowrap', fontSize: `${fontSize}px` }}>
+    <div
+      ref={textRef}
+      style={{
+        whiteSpace: 'nowrap',
+        fontSize: `${initialFontSize}px`,
+        letterSpacing: `${letterSpacing}em`,
+      }}
+    >
       {text}
     </div>
   );

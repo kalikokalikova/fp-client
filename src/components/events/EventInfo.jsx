@@ -9,23 +9,18 @@ import { formattedTimestamp } from "../../utils/timestampFormatter";
 import { ResizedTextLine } from "../ResizedTextLine";
 
 export default function EventInfo({ data }) {
-  const textLines = [
-    "This is a very, very long line of text that will likely be wider than 400px initially.",
-    "An even longer line to really test the resizing.",
-    "A short one again.",
-  ];
-  const [containerWidth, setContainerWidth] = useState(400);
+  const [containerWidth, setContainerWidth] = useState(350);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setContainerWidth(300); // Example dynamic width
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setContainerWidth(300); // Example dynamic width
+  //   };
 
-    window.addEventListener("resize", handleResize);
-    handleResize();
+  //   window.addEventListener("resize", handleResize);
+  //   handleResize();
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   return (
     <Container
@@ -34,12 +29,17 @@ export default function EventInfo({ data }) {
       }}
     >
       <Box>
-        <ResizedTextLine text={data.event.title} containerWidth={containerWidth} />
+        <ResizedTextLine
+          text={data.event.title}
+          containerWidth={containerWidth}
+          initialFontSize={28}
+        />
       </Box>
       <Box>
         <ResizedTextLine
           text={formattedTimestamp(data.event.start_date_time).date}
           containerWidth={containerWidth}
+          initialFontSize={18}
         />
         <Typography gutterBottom>
           {formattedTimestamp(data.event.start_date_time).time}
