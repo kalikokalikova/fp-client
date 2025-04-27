@@ -10,6 +10,7 @@ export function ResizedTextLine({
   const [ kerningValue, setKerningValue ] = useState(0)
 
   useEffect(() => {
+    console.log("kerning for width: ", containerWidth)
     setKerningValue(getKerningValue(text));
   }, [])
 

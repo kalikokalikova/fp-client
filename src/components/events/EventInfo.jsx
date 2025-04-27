@@ -1,28 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../api";
-import { Box, Button, Typography, Container,Divider } from "@mui/material";
+import { Box, Button, Typography, Container, Divider } from "@mui/material";
 import QRCode from "react-qr-code";
 import { formattedTimestamp } from "../../utils/timestampFormatter";
 import { ResizedTextLine } from "../ResizedTextLine";
 
 export default function EventInfo({ data }) {
+  const elementRef = useRef(null);
   const [containerWidth, setContainerWidth] = useState(300);
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setContainerWidth(300); // Example dynamic width
-  //   };
+  const measureWidth = useCallback(() => {
+    const element = elementRef.current;
+    if (element) {
+      setContainerWidth(element.offsetWidth);
+    }
+  }, []);
 
-  //   window.addEventListener("resize", handleResize);
-  //   handleResize();
-
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
+  useEffect(() => {
+    measureWidth(); // Initial measurement
+    const handleResize = () => {
+      measureWidth();
+    };
+    window.addEventListener("resize", handleResize);
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [containerWidth]); // Include measureWidth in the dependency array
 
   return (
     <Container
+      ref={elementRef}
       sx={{
         textTransform: "uppercase",
       }}
@@ -53,7 +63,6 @@ export default function EventInfo({ data }) {
           </Typography>
         </>
       )}
-      <Typography gutterBottom>Add to calendar</Typography>
 
       <ResizedTextLine
         text={`${data.location.address_1}`}
@@ -79,6 +88,7 @@ export default function EventInfo({ data }) {
       />
 
       <Box>
+        <Button>Add to Calendar</Button>
         <Button>Save</Button>
         <Button>Share</Button>
       </Box>
