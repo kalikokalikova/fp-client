@@ -71,12 +71,14 @@ export function ResizedTextLine({
         letterSpacing: `${kerningValue}px`,
       }}
     >
-      {words.map((word) => (
+      {words.map((word, index) => (
         <span
-          ref={textRef}
+          key={index}
+          ref={index === 0 ? textRef : null} // Only ref the first word
           style={{
             whiteSpace: "nowrap",
             fontSize: `${initialFontSize}px`,
+            letterSpacing: `${kerningValue}px`, // Apply here
           }}
         >
           {word}
@@ -85,16 +87,4 @@ export function ResizedTextLine({
     </Box>
   );
 
-  return (
-    <div
-      ref={textRef}
-      style={{
-        whiteSpace: "nowrap",
-        fontSize: `${initialFontSize}px`,
-        letterSpacing: `${letterSpacingPx}px`,
-      }}
-    >
-      {text}
-    </div>
-  );
 }
