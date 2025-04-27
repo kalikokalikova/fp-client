@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Box, Button, Typography } from "@mui/material";
 
 export function ResizedTextLine({
   text,
@@ -6,7 +7,11 @@ export function ResizedTextLine({
   initialFontSize = 16,
 }) {
   const textRef = useRef(null);
-  const [letterSpacingPx, setLetterSpacingPx] = useState(0);
+  const [ kerningValue, setKerningValue ] = useState(0)
+
+  useEffect(() => {
+    setKerningValue(getKerningValue(text));
+  }, [])
 
   const measureTextWidth = (text, font) => {
     const canvas = document.createElement("canvas");
@@ -16,7 +21,7 @@ export function ResizedTextLine({
     return metrics.width;
   };
 
-  useEffect(() => {
+  const getKerningValue = (text) => {
     if (!textRef.current || !containerWidth || !text) {
       return;
     }
@@ -31,10 +36,6 @@ export function ResizedTextLine({
     const letterSpacingIncrementPx = 0.5;
     const characterCount = text.length;
 
-    console.log(
-      `Initial width (no spacing): ${baseTextWidth}, target: ${containerWidth}, initialFontSize: ${initialFontSize}, characterCount: ${characterCount}`
-    );
-
     while (
       Math.abs(
         baseTextWidth +
@@ -44,11 +45,6 @@ export function ResizedTextLine({
       iterations < maxIterations &&
       currentLetterSpacingPx < containerWidth * 2
     ) {
-      console.log(
-        `Iteration ${iterations}, currentLetterSpacingPx: ${currentLetterSpacingPx}, estimated width: ${
-          baseTextWidth + currentLetterSpacingPx * (characterCount - 1)
-        }`
-      );
       if (
         baseTextWidth + currentLetterSpacingPx * (characterCount - 1) <
         containerWidth
@@ -59,14 +55,34 @@ export function ResizedTextLine({
       }
       iterations++;
     }
+    return currentLetterSpacingPx;
+  };
 
-    setLetterSpacingPx(currentLetterSpacingPx);
-    console.log(
-      `Final letterSpacingPx: ${currentLetterSpacingPx}, estimated final width: ${
-        baseTextWidth + currentLetterSpacingPx * (characterCount - 1)
-      }`
-    );
-  }, [text, containerWidth, initialFontSize]);
+  let words = text.split(" ");
+
+  return (
+    <Box
+      sx={{
+        display: "grid",
+        gridAutoFlow: "column",
+        justifyContent: "space-between",
+        width: "100%",
+        letterSpacing: `${kerningValue}px`,
+      }}
+    >
+      {words.map((word) => (
+        <span
+          ref={textRef}
+          style={{
+            whiteSpace: "nowrap",
+            fontSize: `${initialFontSize}px`,
+          }}
+        >
+          {word}
+        </span>
+      ))}
+    </Box>
+  );
 
   return (
     <div
