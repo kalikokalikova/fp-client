@@ -10,7 +10,8 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Reddit Sans Condensed, sans-serif"
+    // fontFamily: "Reddit Sans Condensed, sans-serif",
+    fontFamily: "Anton, sans-serif"
   },
   components: {
     MuiButton: {

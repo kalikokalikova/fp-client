@@ -47,7 +47,7 @@ export default function EventInfo({ data }) {
         initialFontSize={28}
       />
 
-      <Divider sx={{ borderColor: "white", margin: "10px 0" }} />
+      <Divider sx={{ borderColor: "#FFCB83", margin: "10px 0" }} />
 
       <ResizedTextLine
         text={formattedTimestamp(data.event.start_date_time).date}
@@ -67,6 +67,7 @@ export default function EventInfo({ data }) {
           </Typography>
         </>
       )}
+      <Button>Add to Calendar</Button>
 
       <ResizedTextLine
         text={`${data.location.address_1}`}
@@ -80,19 +81,17 @@ export default function EventInfo({ data }) {
       />
 
       <ResizedTextLine
-        text={data.event.description}
-        containerWidth={containerWidth}
-        initialFontSize={14}
-      />
-
-      <ResizedTextLine
         text={data.event.host}
         containerWidth={containerWidth}
         initialFontSize={14}
       />
 
+      <Divider sx={{ borderColor: "#FFCB83", margin: "10px 0" }} />
+
+      <Box className="barlow-regular" sx={{ textTransform: "none" }}>{data.event.description}</Box>
+
       <Box>
-        <Button>Add to Calendar</Button>
+
         <Button>Save</Button>
         <Button>Share</Button>
       </Box>
