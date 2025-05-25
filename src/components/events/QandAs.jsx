@@ -48,7 +48,13 @@ function QandAs({ qAndAData }) {
   })
 
   return (
-    <Container>
+    <Container
+    sx={{
+      backgroundColor: "#F7FDFF",
+      margin: "8px",
+      width: "auto",
+      padding: "5px",
+    }}>
       <Typography>Q&A</Typography>
       <Typography>Anyone can ask, anyone can answer.</Typography>
       <Button onClick={handleAskQuestion}>ask a question</Button>

@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../api";
 import { Box, Button, Typography } from "@mui/material";
 import QRCode from "react-qr-code";
-import Event from "../components/events/EventInfo";
+import EventInfo from "../components/events/EventInfo";
 import QandAs from "../components/events/QandAs";
 
 export default function EventPage() {
@@ -16,7 +16,6 @@ export default function EventPage() {
     return res.data;
   };
 
-  // TODO data.questions is in opposite order of what we want
   const { data, isLoading, isError } = useQuery({
     queryKey: ["event", params.eventId],
     queryFn: fetchEvent,
@@ -27,22 +26,24 @@ export default function EventPage() {
       {
         <Box
           sx={{
-            backgroundColor: "#2b297c",
+            backgroundColor: "#007090",
             paddingTop: "10px",
             paddingBottom: "200px",
-            color: "white",
           }}
         >
+          <Box>
           {isLoading ? (
             <Typography>Loading ...</Typography>
           ) : data ? (
             <>
-              <Event data={data} />
+              <EventInfo data={data} />
               {data.questions && <QandAs qAndAData={data.questions} />}
             </>
           ) : (
             <Typography>Unable to load this event.</Typography>
           )}
+          </Box>
+
         </Box>
       }
     </>

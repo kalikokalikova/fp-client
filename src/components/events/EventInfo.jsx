@@ -35,6 +35,10 @@ export default function EventInfo({ data }) {
       ref={elementRef}
       sx={{
         textTransform: "uppercase",
+        backgroundColor: "#F7FDFF",
+        margin: "0 8px",
+        width: "auto",
+        padding: "5px",
       }}
     >
       <ResizedTextLine
