@@ -8,7 +8,7 @@ import api from "../../api";
 function QandAs({ qAndAData }) {
   const [questionInputOpen, setQuestionInputOpen] = useState(false);
   const [questionText, setQuestionText] = useState("");
-  const [questions, setQuestions] = useState(qAndAData)
+  const [questions, setQuestions] = useState(qAndAData);
 
   const { eventId } = useParams();
 
@@ -22,11 +22,11 @@ function QandAs({ qAndAData }) {
   };
 
   const handleQuestionChange = (e) => {
-    setQuestionText(e.target.value)
-  }
+    setQuestionText(e.target.value);
+  };
 
   const handleSubmitQuestion = () => {
-    let request = { "question_text": questionText}
+    let request = { question_text: questionText };
     mutation.mutate(request);
   };
 
@@ -44,42 +44,63 @@ function QandAs({ qAndAData }) {
     },
     onError: (error) => {
       console.error(error);
-    }
-  })
+    },
+  });
 
   return (
     <Container
-    sx={{
-      backgroundColor: "#F7FDFF",
-      margin: "8px",
-      width: "auto",
-      padding: "5px",
-    }}>
-      <Typography variant="h5">Q&A</Typography>
-      <Typography>Anyone can ask, anyone can answer.</Typography>
+      sx={{
+        backgroundColor: "#F7FDFF",
+        margin: "8px",
+        width: "auto",
+        padding: "5px 5px 20px 5px",
+      }}
+    >
+      <Typography variant="h5" sx={{ fontFamily: "Anton, sans-serif" }}>
+        Q&A
+      </Typography>
+      <Typography sx={{ fontFamily: "Anton, sans-serif" }}>
+        Anyone can ask, anyone can answer.
+      </Typography>
 
-      {questionInputOpen && (
-          <Box>
-            <TextField label="Your question" variant="outlined" value={questionText} onChange={handleQuestionChange} />
-            <Button onClick={handleCancelQuestion}>Cancel</Button>
-            <Button onClick={handleSubmitQuestion}>Post</Button>
-          </Box>
-        )}
       {questions.length === 0 ? (
         <Box>
           <Typography>No questions yet.</Typography>
         </Box>
       ) : (
         <>
-
-        <Box>{questions.map((question, index) => (
-          <Question key={index} question={question}/>
-        ))}</Box>
+          <Box sx={{ marginBottom: "20px" }}>
+            {questions.map((question, index) => (
+              <Question key={index} question={question} />
+            ))}
+          </Box>
         </>
       )}
-      <Button onClick={handleAskQuestion}>ask a question</Button>
+      {questionInputOpen && (
+        <Box>
+          <TextField
+            sx={{ width: "100%", marginBottom: "10px" }}
+            label="Your question"
+            variant="outlined"
+            value={questionText}
+            onChange={handleQuestionChange}
+          />
+          <Button
+            variant="outlined"
+            sx={{ marginRight: "10px" }}
+            onClick={handleCancelQuestion}
+          >
+            Cancel
+          </Button>
+          <Button onClick={handleSubmitQuestion}>Post</Button>
+        </Box>
+      )}
+      {!questionInputOpen && (
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+<Button sx={{ width: "80%"}} onClick={handleAskQuestion}>ask a question</Button>
+        </Box>
 
-
+      )}
     </Container>
   );
 }

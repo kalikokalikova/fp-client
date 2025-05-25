@@ -75,18 +75,18 @@ function Question({ question }) {
         </AccordionSummary>
         <AccordionDetails>
           {answers.length > 0 ? (
-            <List>
+            <List sx={{ paddingTop: "0px" }}>
               {answers.map((answer, index) => (
-                <ListItem key={index}>
+                <ListItem key={index} sx={{ paddingTop: "0px"}}>
                   <Answer answer={answer} />
                 </ListItem>
               ))}
             </List>
           ) : (<Typography>No answers yet</Typography>)}
           {answerInputOpen ? (
-        <Box>
-          <TextField label="Your answer" variant="outlined" value={answerText} onChange={handleAnswerChange} />
-          <Button onClick={handleCancelAnswer}>Cancel</Button>
+        <Box >
+          <TextField sx={{ width: "100%", marginBottom: "10px" }} label="Your answer" variant="outlined" value={answerText} onChange={handleAnswerChange} />
+          <Button variant="outlined" sx={{ marginRight: "10px" }} onClick={handleCancelAnswer}>Cancel</Button>
           <Button onClick={handleSubmitAnswer}>Post</Button>
         </Box>
       ) : (<Button onClick={handleAnswerQuestion}>Answer</Button>)}
