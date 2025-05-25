@@ -14,6 +14,7 @@ import {
   FormHelperText,
   Alert,
   Switch,
+  Divider,
 } from "@mui/material";
 import api from "../api";
 import LocationInput from "../components/LocationInput";
@@ -34,6 +35,8 @@ const commonInputStyles = {
     },
   },
 };
+
+const customBurgundy = "#932253";
 
 function CreateEventPage() {
   const navigate = useNavigate();
@@ -91,63 +94,71 @@ function CreateEventPage() {
   };
 
   return (
-    <Box>
-      <Container>
+    <Container
+      sx={{ backgroundColor: "white", padding: "16px 16px 100px 16px" }}
+    >
+      <Box>{serverError && <Alert severity="error">{serverError}</Alert>}</Box>
+      <Box
+        sx={{ display: "flex", alignItems: "center", flexDirection: "column", marginBottom: "20px" }}
+      >
+        <Typography
+          sx={{ fontFamily: "Anton, sans-serif", color: "#932253" }}
+          variant="h5"
+        >
+          Create an event flash
+        </Typography>
+        <Typography>A digital event flyer made in minutes</Typography>
+      </Box>
+
+      <form component="form" onSubmit={handleSubmit(onSubmit)}>
         <Box>
-          {serverError && <Alert severity="error">{serverError}</Alert>}
-        </Box>
-        <form component="form" onSubmit={handleSubmit(onSubmit)}>
-          <Box>
-            <TextField
-              label="event title"
-              {...register("title", { required: "Title is required" })}
-              error={!!errors.title}
-              helperText={errors.title?.message}
-              variant="outlined"
-              sx={commonInputStyles}
-            />
+          <Typography sx={{ fontFamily: "Anton, sans-serif" }}>
+            Title your event
+          </Typography>
+          <TextField
+            label="event title"
+            {...register("title", { required: "Title is required" })}
+            error={!!errors.title}
+            helperText={errors.title?.message}
+            variant="outlined"
+            sx={commonInputStyles}
+          />
 
-            <Controller
-              name="start_date_time"
-              control={control}
-              defaultValue={dayjs()}
-              rules={{
-                required: "Start time is required.",
-              }}
-              render={({ field }) => (
-                <MobileDateTimePicker
-                  {...field} // This binds the field value and event handling
-                  label="Start time"
-                  sx={commonInputStyles}
-                />
-              )}
-            />
+          <Divider sx={{ margin: "20px 0", borderColor: "#932253" }} />
 
-            {showEndDateTime ? (
-              <>
-                <Controller
-                  name="end_date_time"
-                  control={control}
-                  render={({ field }) => (
-                    <MobileDateTimePicker
-                      {...field}
-                      label="End time"
-                      sx={commonInputStyles}
-                    />
-                  )}
-                />
-                <FormHelperText
-                  sx={{
-                    textAlign: "right",
-                    margin: 0,
-                    textDecoration: "underline",
-                  }}
-                  onClick={handleEndDateTimeToggle}
-                >
-                  - remove end time
-                </FormHelperText>
-              </>
-            ) : (
+          <Typography sx={{ fontFamily: "Anton, sans-serif" }}>
+            Add the time & place
+          </Typography>
+
+          <Controller
+            name="start_date_time"
+            control={control}
+            defaultValue={dayjs()}
+            rules={{
+              required: "Start time is required.",
+            }}
+            render={({ field }) => (
+              <MobileDateTimePicker
+                {...field} // This binds the field value and event handling
+                label="Start time"
+                sx={commonInputStyles}
+              />
+            )}
+          />
+
+          {showEndDateTime ? (
+            <>
+              <Controller
+                name="end_date_time"
+                control={control}
+                render={({ field }) => (
+                  <MobileDateTimePicker
+                    {...field}
+                    label="End time"
+                    sx={commonInputStyles}
+                  />
+                )}
+              />
               <FormHelperText
                 sx={{
                   textAlign: "right",
@@ -156,57 +167,82 @@ function CreateEventPage() {
                 }}
                 onClick={handleEndDateTimeToggle}
               >
-                + add end time
+                - remove end time
               </FormHelperText>
-            )}
-
-            <LocationInput control={control} name="location" />
-
-            <TextField
-              label="host name"
-              variant="outlined"
-              {...register("host")}
-              sx={commonInputStyles}
-            />
-
-            <TextField
-              label="description"
-              variant="outlined"
-              {...register("description")}
-              sx={commonInputStyles}
-            />
-
-            <Box
+            </>
+          ) : (
+            <FormHelperText
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                marginTop: "10px",
+                textAlign: "right",
+                margin: 0,
+                textDecoration: "underline",
               }}
+              onClick={handleEndDateTimeToggle}
             >
-              <Controller
-                name="allow_qa"
-                control={control}
-                render={({ field }) => (
-                  <FormControlLabel
-                    control={<Switch {...field} checked={field.value} />}
-                    label="Allow Q&A"
-                  />
-                )}
-              />
-            </Box>
-          </Box>
+              + add end time
+            </FormHelperText>
+          )}
 
+          <LocationInput control={control} name="location" />
+
+          <Divider sx={{ margin: "20px 0", borderColor: "#932253" }} />
+
+          <Typography sx={{ fontFamily: "Anton, sans-serif" }}>
+            Add some more info, if you want
+          </Typography>
+
+          <TextField
+            label="description"
+            variant="outlined"
+            {...register("description")}
+            sx={commonInputStyles}
+          />
+
+          <TextField
+            label="host name"
+            variant="outlined"
+            {...register("host")}
+            sx={commonInputStyles}
+          />
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "10px",
+            }}
+          >
+            <Controller
+              name="allow_qa"
+              control={control}
+              render={({ field }) => (
+                <FormControlLabel
+                  label="Allow Q&A"
+                  control={<Switch {...field} checked={field.value} />}
+                />
+              )}
+            />
+            <Typography>
+              This allows anyone to ask and answer questions related to the
+              event.
+            </Typography>
+          </Box>
+        </Box>
+
+        <Box
+          sx={{ marginTop: "20px", display: "flex", justifyContent: "center" }}
+        >
           <Button
+            sx={{ width: "80%" }}
             type="submit"
             className="action-button"
-            sx={{ marginTop: "20px" }}
             disabled={mutation.isLoading}
           >
-            {mutation.isLoading ? "Submitting..." : "Submit"}
+            {mutation.isLoading ? "Creating..." : "Create flash"}
           </Button>
-        </form>
-      </Container>
-    </Box>
+        </Box>
+      </form>
+    </Container>
   );
 }
 
