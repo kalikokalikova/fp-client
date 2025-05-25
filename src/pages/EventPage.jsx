@@ -9,6 +9,7 @@ import QandAs from "../components/events/QandAs";
 
 export default function EventPage() {
   const params = useParams();
+  const [isDaytimeEvent, setIsDaytimeEvent] = useState(false);
 
   const fetchEvent = async () => {
     const res = await api.get(`/api/v1/events/${params.eventId}`);
@@ -23,13 +24,20 @@ export default function EventPage() {
   return (
     <>
       {
-        <Box>
+        <Box
+          sx={{
+            backgroundColor: "#2b297c",
+            paddingTop: "10px",
+            paddingBottom: "200px",
+            color: "white",
+          }}
+        >
           {isLoading ? (
             <Typography>Loading ...</Typography>
           ) : data ? (
             <>
               <Event data={data} />
-              { data.questions && <QandAs qAndAData={data.questions} />}
+              {data.questions && <QandAs qAndAData={data.questions} />}
             </>
           ) : (
             <Typography>Unable to load this event.</Typography>
