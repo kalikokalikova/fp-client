@@ -67,8 +67,8 @@ function QandAs({ qAndAData }) {
       ) : (
         <>
 
-        <Box>{questions.map((question) => (
-          <Question question={question}/>
+        <Box>{questions.map((question, index) => (
+          <Question key={index} question={question}/>
         ))}</Box>
         </>
       )}

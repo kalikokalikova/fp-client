@@ -71,8 +71,8 @@ function Question({ question }) {
         <AccordionDetails>
           {answers.length > 0 ? (
             <List>
-              {answers.map((answer) => (
-                <ListItem>
+              {answers.map((answer, index) => (
+                <ListItem key={index}>
                   <Answer answer={answer} />
                 </ListItem>
               ))}
