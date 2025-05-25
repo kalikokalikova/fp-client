@@ -10,9 +10,8 @@ export function ResizedTextLine({
   const [ kerningValue, setKerningValue ] = useState(0)
 
   useEffect(() => {
-    console.log("kerning for width: ", containerWidth)
     setKerningValue(getKerningValue(text));
-  }, [])
+  }, [containerWidth])
 
   const measureTextWidth = (text, font) => {
     const canvas = document.createElement("canvas");
@@ -64,7 +63,7 @@ export function ResizedTextLine({
   return (
     <Box
       sx={{
-        display: "grid",
+        display: "flex",
         gridAutoFlow: "column",
         justifyContent: "space-between",
         width: "100%",

@@ -16,6 +16,7 @@ export default function EventPage() {
     return res.data;
   };
 
+  // TODO data.questions is in opposite order of what we want
   const { data, isLoading, isError } = useQuery({
     queryKey: ["event", params.eventId],
     queryFn: fetchEvent,
