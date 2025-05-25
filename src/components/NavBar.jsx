@@ -16,27 +16,20 @@ import PersonIcon from "@mui/icons-material/Person";
 import { Drawer, List, ListItem, ListItemText } from '@mui/material';
 
 const navLinks = [
-  { text: "Create event", icon: <AddIcon sx={{ marginRight: '5px' }} /> },
+  { text: "Create Flash", href: "/#" },
+  { text: "About", href: "/about"  },
 ];
 const settings = [];
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   return (
@@ -65,52 +58,9 @@ function NavBar() {
               color: "#FFFFFF",
             }}
           >
-            FlashPony
+            Flashpony
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="hamburger"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-            >
-              <MenuIcon sx={{ color: "text.dark" }} />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {navLinks.map((link) => (
-                <MenuItem key={link.text} onClick={handleCloseNavMenu}>
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    {link.icon}
-                    <Typography
-                      sx={{ marginLeft: 1 }}
-                      textAlign="center"
-                    >
-                      {link.text}
-                    </Typography>
-                  </Box>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
           <BoltIcon
             sx={{
               display: { xs: "flex", md: "none" },
@@ -144,7 +94,11 @@ function NavBar() {
             {navLinks.map((link) => (
               <Button
                 key={link.text}
-                onClick={handleCloseNavMenu}
+                component="a"
+                href={link.href}
+                onClick={(event) => {
+                    handleCloseNavMenu();
+                  }}
                 sx={{
                   my: 2,
                   display: "flex",
@@ -156,7 +110,50 @@ function NavBar() {
               </Button>
             ))}
           </Box>
-
+          
+        <Box sx={{ display: { xs: "flex", md: "none" }, ml: "auto" }}>
+            <IconButton
+              size="large"
+              aria-label="hamburger"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+            >
+              <MenuIcon sx={{ color: "#FFFFFF" }} />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              {navLinks.map((link) => (
+                <MenuItem key={link.text} onClick={handleCloseNavMenu}>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    {link.icon}
+                    <Typography
+                      sx={{ marginLeft: 1 }}
+                      textAlign="center"
+                    >
+                      {link.text}
+                    </Typography>
+                  </Box>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
