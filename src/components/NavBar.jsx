@@ -42,7 +42,7 @@ function NavBar() {
   return (
     <AppBar
       position="static"
-      sx={{ backgroundColor: "primaryLight", boxShadow: "none" }}
+      sx={{ boxShadow: "none" }}
     >
       <Container sx={{ maxWidth: "100% !important" }}>
         <Toolbar disableGutters>
@@ -50,7 +50,6 @@ function NavBar() {
             sx={{
               display: { xs: "none", md: "flex" },
               mr: 1,
-              color: "text.dark",
             }}
           />
           <Typography
@@ -62,7 +61,6 @@ function NavBar() {
               mr: 2,
               display: { xs: "none", md: "flex" },
               fontWeight: 700,
-              color: "text.dark",
               textDecoration: "none",
             }}
           >
@@ -76,7 +74,6 @@ function NavBar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="text.dark"
             >
               <MenuIcon sx={{ color: "text.dark" }} />
             </IconButton>
@@ -103,7 +100,7 @@ function NavBar() {
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     {link.icon}
                     <Typography
-                      sx={{ color: "text.dark", marginLeft: 1 }}
+                      sx={{ marginLeft: 1 }}
                       textAlign="center"
                     >
                       {link.text}
@@ -117,7 +114,6 @@ function NavBar() {
             sx={{
               display: { xs: "flex", md: "none" },
               mr: 1,
-              color: "text.dark",
             }}
           />
           <Typography
@@ -130,7 +126,6 @@ function NavBar() {
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
               fontWeight: 700,
-              color: "text.dark",
               textDecoration: "none",
             }}
           >
@@ -150,7 +145,6 @@ function NavBar() {
                 onClick={handleCloseNavMenu}
                 sx={{
                   my: 2,
-                  color: "text.dark",
                   display: "flex",
                   alignItems: "center",
                   marginRight: "15px",
@@ -163,7 +157,7 @@ function NavBar() {
 
           <Box sx={{ flexGrow: 0 }} className="smalley">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <PersonIcon sx={{ color: 'text.dark' }} />
+              <PersonIcon />
             </IconButton>
             <Menu
               sx={{ mt: "45px" }}
