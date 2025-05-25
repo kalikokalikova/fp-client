@@ -10,15 +10,15 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import BoltIcon from "@mui/icons-material/Bolt";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import AddIcon from "@mui/icons-material/Add";
 import PersonIcon from "@mui/icons-material/Person";
 
+import { Drawer, List, ListItem, ListItemText } from '@mui/material';
+
 const navLinks = [
-  { text: "My events", icon: <CalendarTodayIcon sx={{ marginRight: '5px' }} /> },
   { text: "Create event", icon: <AddIcon sx={{ marginRight: '5px' }} /> },
 ];
-const settings = ["Account", "Logout"];
+const settings = [];
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -42,7 +42,7 @@ function NavBar() {
   return (
     <AppBar
       position="static"
-      sx={{ boxShadow: "none" }}
+      sx={{ boxShadow: "none", backgroundColor: "#2B2B2B" }}
     >
       <Container sx={{ maxWidth: "100% !important" }}>
         <Toolbar disableGutters>
@@ -62,6 +62,7 @@ function NavBar() {
               display: { xs: "none", md: "flex" },
               fontWeight: 700,
               textDecoration: "none",
+              color: "#FFFFFF",
             }}
           >
             FlashPony
@@ -127,6 +128,7 @@ function NavBar() {
               flexGrow: 1,
               fontWeight: 700,
               textDecoration: "none",
+              color: "#FFFFFF",
             }}
           >
             Flashpony
@@ -155,33 +157,6 @@ function NavBar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }} className="smalley">
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <PersonIcon />
-            </IconButton>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
         </Toolbar>
       </Container>
     </AppBar>
