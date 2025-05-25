@@ -2,12 +2,13 @@ import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   typography: {
-    fontFamily: "Anton, sans-serif",
+    fontFamily: "Barlow, sans-serif",
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
+          fontFamily: "Anton, sans-serif",
           backgroundColor: "#932253",
           borderRadius: 0,
           color: "white",
