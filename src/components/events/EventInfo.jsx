@@ -6,6 +6,7 @@ import { Box, Button, Typography, Container, Divider } from "@mui/material";
 import QRCode from "react-qr-code";
 import DownloadIcon from "@mui/icons-material/Download";
 import ShareIcon from "@mui/icons-material/Share";
+import EventIcon from '@mui/icons-material/Event';
 import { formattedTimestamp } from "../../utils/timestampFormatter";
 import { ResizedTextLine } from "../ResizedTextLine";
 
@@ -68,7 +69,7 @@ export default function EventInfo({ data }) {
           </Typography>
         </>
       )}
-      <Button>Add to Calendar</Button>
+      <Typography sx={{ display: "flex" }}><EventIcon sx={{ marginRight: "5px"}}/>Add to Calendar</Typography>
 
       <ResizedTextLine
         text={`${data.location.address_1}`}
@@ -94,11 +95,11 @@ export default function EventInfo({ data }) {
       <Box
         sx={{ marginTop: "10px", display: "flex", justifyContent: "center" }}
       >
-        <Button variant="outlined" sx={{ marginRight: "10px", width: "40%" }}>
+        <Button variant="outlined" sx={{ marginRight: "10px", width: "50%" }}>
           <ShareIcon sx={{ marginRight: "5px" }} />
           Share
         </Button>
-        <Button sx={{ width: "40%"}}>
+        <Button sx={{ width: "50%"}}>
           <DownloadIcon sx={{ marginRight: "5px" }} />
           Save
         </Button>

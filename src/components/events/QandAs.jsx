@@ -55,7 +55,7 @@ function QandAs({ qAndAData }) {
       width: "auto",
       padding: "5px",
     }}>
-      <Typography>Q&A</Typography>
+      <Typography variant="h5">Q&A</Typography>
       <Typography>Anyone can ask, anyone can answer.</Typography>
 
       {questionInputOpen && (

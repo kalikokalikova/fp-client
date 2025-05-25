@@ -3,10 +3,10 @@ import { Box, Typography } from "@mui/material";
 
 function Answer({ answer }) {
   return (
-    <>
-    <Typography>{answer.answer_text}</Typography>
-    <Typography>{answer.created_at}</Typography>
-    </>
+    <Box sx={{ display: "block" }}>
+    <Typography className="barlow-regular">{answer.answer_text}</Typography>
+    <Typography className="barlow-regular" sx={{ fontSize: ".85rem", color: "#00000070"}}>{answer.created_at}</Typography>
+    </Box>
   );
 }
 

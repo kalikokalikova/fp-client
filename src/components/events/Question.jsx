@@ -63,14 +63,15 @@ function Question({ question }) {
   })
 
   return (
-    <>
-      <Accordion>
+    <Box>
+      <Accordion
+      sx={{ backgroundColor: "transparent", boxShadow: "none" }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          <Typography component="span">{question.question_text}</Typography>
+          <Typography className="barlow-regular" sx={{ fontWeight: "600" }}>{question.question_text}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {answers.length > 0 ? (
@@ -92,7 +93,7 @@ function Question({ question }) {
 
         </AccordionDetails>
       </Accordion>
-    </>
+    </Box>
   );
 }
 
