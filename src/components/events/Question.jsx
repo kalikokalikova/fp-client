@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import Answer from "./Answer";
 import { useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -22,6 +22,10 @@ function Question({ question }) {
   const [answerText, setAnswerText] = useState("");
   const [answers, setAnswers] = useState(question.answers || [])
   const { eventId } = useParams();
+
+  useEffect(() => {
+    setAnswers(question.answers || []);
+  }, [question]);
 
   const handleAnswerQuestion = () => {
     setAnswerInputOpen(true);

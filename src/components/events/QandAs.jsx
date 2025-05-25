@@ -62,7 +62,6 @@ function QandAs({ qAndAData }) {
       {questions.length === 0 ? (
         <Box>
           <Typography>No questions yet.</Typography>
-
         </Box>
       ) : (
         <>
