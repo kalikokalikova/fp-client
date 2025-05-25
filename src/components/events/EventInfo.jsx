@@ -34,7 +34,6 @@ export default function EventInfo({ data }) {
     <Container
       ref={elementRef}
       sx={{
-        textTransform: "uppercase",
         backgroundColor: "#F7FDFF",
         margin: "0 8px",
         width: "auto",
@@ -88,11 +87,11 @@ export default function EventInfo({ data }) {
 
       <Divider sx={{ borderColor: "#FFCB83", margin: "10px 0" }} />
 
-      <Box className="barlow-regular" sx={{ textTransform: "none" }}>{data.event.description}</Box>
+      <Box className="barlow-regular">{data.event.description}</Box>
 
       <Box>
 
-        <Button>Save</Button>
+        <Button variant="outlined">Save</Button>
         <Button>Share</Button>
       </Box>
     </Container>

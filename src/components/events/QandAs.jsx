@@ -57,7 +57,7 @@ function QandAs({ qAndAData }) {
     }}>
       <Typography>Q&A</Typography>
       <Typography>Anyone can ask, anyone can answer.</Typography>
-      <Button onClick={handleAskQuestion}>ask a question</Button>
+
       {questionInputOpen && (
           <Box>
             <TextField label="Your question" variant="outlined" value={questionText} onChange={handleQuestionChange} />
@@ -77,6 +77,7 @@ function QandAs({ qAndAData }) {
         ))}</Box>
         </>
       )}
+      <Button onClick={handleAskQuestion}>ask a question</Button>
 
 
     </Container>

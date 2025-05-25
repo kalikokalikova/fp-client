@@ -63,6 +63,7 @@ export function ResizedTextLine({
   return (
     <Box
       sx={{
+        textTransform: "uppercase",
         display: "flex",
         gridAutoFlow: "column",
         justifyContent: "space-between",
