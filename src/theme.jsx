@@ -20,13 +20,21 @@ const theme = createTheme({
 
           "&:hover": {
             backgroundColor: "white !important",
-            color: "#932253",
+            color: "#932253 !important",
             border: "1px solid #932253 !important", // On hover, the border becomes visible
           },
 
-          "&:focus": {},
+          "&:focus": {
+            backgroundColor: "#932253 !important",
+            color: "white !important",
+            borderColor: "#932253",
+          },
 
-          "&:active": {},
+          "&:active": {
+            backgroundColor: "#932253 !important",
+            color: "white !important",
+            borderColor: "#932253",
+          },
         },
         outlined: {
           backgroundColor: "white",
@@ -39,10 +47,18 @@ const theme = createTheme({
           "&:hover": {
             backgroundColor: "#932253 !important",
             color: "white !important",
-            borderColor: "#932253", // Example hover border color change
+            borderColor: "#932253 !imporant", // Example hover border color change
           },
-          "&:focus": {},
-          "&:active": {},
+          "&:focus": {
+            backgroundColor: "white !important",
+            color: "#932253 !important",
+            border: "1px solid #932253 !important",
+          },
+          "&:active": {
+            backgroundColor: "white !important",
+            color: "#932253 !important",
+            border: "1px solid #932253 !important",
+          },
         },
         // If you're also using the 'text' variant and want consistency:
         text: {

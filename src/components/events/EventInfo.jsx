@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../../api";
 import { Box, Button, Typography, Container, Divider } from "@mui/material";
 import QRCode from "react-qr-code";
+import DownloadIcon from "@mui/icons-material/Download";
+import ShareIcon from "@mui/icons-material/Share";
 import { formattedTimestamp } from "../../utils/timestampFormatter";
 import { ResizedTextLine } from "../ResizedTextLine";
 
@@ -89,10 +91,17 @@ export default function EventInfo({ data }) {
 
       <Box className="barlow-regular">{data.event.description}</Box>
 
-      <Box>
-
-        <Button variant="outlined">Save</Button>
-        <Button>Share</Button>
+      <Box
+        sx={{ marginTop: "10px", display: "flex", justifyContent: "center" }}
+      >
+        <Button variant="outlined" sx={{ marginRight: "10px", width: "40%" }}>
+          <ShareIcon sx={{ marginRight: "5px" }} />
+          Share
+        </Button>
+        <Button sx={{ width: "40%"}}>
+          <DownloadIcon sx={{ marginRight: "5px" }} />
+          Save
+        </Button>
       </Box>
     </Container>
   );
