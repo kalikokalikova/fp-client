@@ -17,6 +17,7 @@ function LocationInput({ control, name }) {
         if (result.error) {
           // handle error
         } else {
+          console.log("Formatted suggestions:", result);
           setSuggestions(result);
         }
       } catch (err) {
