@@ -85,7 +85,7 @@ export default function EventInfo({ data }) {
         <ResizedTextLine
           text={`${data.location.city} ${data.location.state} ${data.location.zip}`}
           containerWidth={containerWidth}
-          initialFontSize={20}
+          initialFontSize={16}
         />
 
         <ResizedTextLine
