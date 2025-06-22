@@ -54,17 +54,13 @@ export default function EventInfo({ data }) {
 
         <Divider sx={{ borderColor: "#FFCB83", margin: "10px 0" }} />
 
-        <ResizedTextLine
-          text={formattedTimestamp(data.event.start_date_time).date}
-          containerWidth={containerWidth}
-          initialFontSize={18}
-        />
-
-        <ResizedTextLine
-          text={eventTime(data.event.start_date_time, data.event.end_date_time)}
-          containerWidth={containerWidth}
-          initialFontSize={24}
-         />
+        { eventTime(data.event.start_date_time, data.event.end_date_time).map((line) => (
+          <ResizedTextLine
+            text={line}
+            containerWidth={containerWidth}
+            initialFontSize={18}
+           />
+        ))}
 
         <ResizedTextLine
           text={`${data.location.address_1}`}
@@ -90,13 +86,17 @@ export default function EventInfo({ data }) {
         <Box
           sx={{ marginTop: "10px", display: "flex", justifyContent: "center" }}
         >
-          <Button variant="outlined" sx={{ marginRight: "10px", width: "50%" }} onClick={() => setShareModalOpen(true)}>
+          <Button
+            variant="outlined"
+            sx={{ marginRight: "10px", width: "50%" }}
+            onClick={() => setShareModalOpen(true)}
+          >
             <ShareIcon sx={{ marginRight: "5px" }} />
             Share
           </Button>
           <Button sx={{ width: "50%" }}>
-          <EventIcon sx={{ marginRight: "5px" }} />
-          Add to Calendar
+            <EventIcon sx={{ marginRight: "5px" }} />
+            Add to Calendar
           </Button>
         </Box>
       </Container>

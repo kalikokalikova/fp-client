@@ -15,9 +15,9 @@ import { eventTime } from "../../utils/eventTime";
 export function ShareEventModal({ open, handleClose, data }) {
   const elementRef = useRef(null);
   const [containerWidth, setContainerWidth] = useState(300);
-  const [eventUrl, setEventUrl] = useState(
-    `${import.meta.env.VITE_FRONTEND_URL}/events/${data.event.id}`
-  );
+  const eventUrl = `${import.meta.env.VITE_FRONTEND_URL}/events/${
+    data.event.id
+  }`;
   const measureWidth = useCallback(() => {
     const element = elementRef.current;
     if (element) {
@@ -38,11 +38,12 @@ export function ShareEventModal({ open, handleClose, data }) {
   }, [containerWidth]); // Include measureWidth in the dependency array
 
   const handleCopyUrl = async () => {
-    try { await navigator.clipboard.writeText(eventUrl);
+    try {
+      await navigator.clipboard.writeText(eventUrl);
     } catch (err) {
-      console.error("URL copy failed: ", err)
+      console.error("URL copy failed: ", err);
     }
-  }
+  };
   return (
     <>
       <Dialog
@@ -70,9 +71,7 @@ export function ShareEventModal({ open, handleClose, data }) {
             }}
           >
             <QRCode
-              value={`${import.meta.env.VITE_FRONTEND_URL}/events/${
-                data.event.id
-              }`}
+              value={eventUrl}
               style={{ height: "auto", maxWidth: "50%" }}
             />
           </Box>
@@ -82,20 +81,25 @@ export function ShareEventModal({ open, handleClose, data }) {
             containerWidth={containerWidth}
             initialFontSize={24}
           />
+
           <Divider sx={{ borderColor: "#FFCB83", margin: "10px 0" }} />
+
           <ResizedTextLine
             text={formattedTimestamp(data.event.start_date_time).date}
             containerWidth={containerWidth}
             initialFontSize={18}
           />
-          <ResizedTextLine
-            text={eventTime(
-              data.event.start_date_time,
-              data.event.end_date_time
-            )}
-            containerWidth={containerWidth}
-            initialFontSize={24}
-          />
+
+          {eventTime(data.event.start_date_time, data.event.end_date_time).map(
+            (line) => (
+              <ResizedTextLine
+                text={line}
+                containerWidth={containerWidth}
+                initialFontSize={18}
+              />
+            )
+          )}
+
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleCopyUrl} sx={{ width: "50%" }}>
