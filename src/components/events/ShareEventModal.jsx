@@ -91,8 +91,9 @@ export function ShareEventModal({ open, handleClose, data }) {
           />
 
           {formatDateTime(data.event.start_date_time, data.event.end_date_time).map(
-            (line) => (
+            (line, index) => (
               <ResizedTextLine
+                key={index}
                 text={line}
                 containerWidth={containerWidth}
                 initialFontSize={18}

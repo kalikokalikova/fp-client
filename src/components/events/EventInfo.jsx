@@ -48,8 +48,9 @@ export default function EventInfo({ data }) {
 
         <Divider sx={{ borderColor: "#FFCB83", margin: "10px 0" }} />
 
-        { formatDateTime(data.event.start_date_time, data.event.end_date_time).map((line) => (
+        { formatDateTime(data.event.start_date_time, data.event.end_date_time).map((line,index) => (
           <ResizedTextLine
+            key={index}
             text={line}
             containerWidth={containerWidth}
             initialFontSize={18}
