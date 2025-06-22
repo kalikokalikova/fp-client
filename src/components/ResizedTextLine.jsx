@@ -69,7 +69,8 @@ export function ResizedTextLine({
         justifyContent: "space-between",
         width: "100%",
         letterSpacing: `${kerningValue}px`,
-        fontFamily: "Anton, sans-serif"
+        fontFamily: "Anton, sans-serif",
+        marginBottom: "5px",
       }}
     >
       {words.map((word, index) => (
