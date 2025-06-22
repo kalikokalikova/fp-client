@@ -244,9 +244,8 @@ function CreateEventPage() {
           sx={{ marginTop: "20px", display: "flex", justifyContent: "center" }}
         >
           <Button
-            sx={{ width: "80%" }}
+            sx={{ width: "100%" }}
             type="submit"
-            className="action-button"
             disabled={mutation.isLoading}
           >
             {mutation.isLoading ? "Creating..." : "Create flash"}
