@@ -21,15 +21,15 @@ export const getLocationSuggestions = async (query) => {
 			place_id: feature.properties.place_id,
       name: feature.properties.name || null,
       address_1: `${feature.properties.housenumber || ""} ${feature.properties.street || ""}`.trim(),
-      address_2: null,
-      city: feature.properties.city,
+      address_2: "",
+      city: feature.properties.city || "",
 			state: feature.properties.state,
 			zip: feature.properties.postcode,
       country: feature.properties.country,
 			full_address: [
         feature.properties.name,
         [feature.properties.housenumber, feature.properties.street].filter(Boolean).join(" "),
-        feature.properties.city,
+        feature.properties.city || "",
         feature.properties.state,
         feature.properties.postcode
       ].filter(Boolean).join(", ")
