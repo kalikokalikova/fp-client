@@ -99,7 +99,12 @@ function CreateEventPage() {
     >
       <Box>{serverError && <Alert severity="error">{serverError}</Alert>}</Box>
       <Box
-        sx={{ display: "flex", alignItems: "center", flexDirection: "column", marginBottom: "20px" }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          marginBottom: "20px",
+        }}
       >
         <Typography
           sx={{ fontFamily: "Anton, sans-serif", color: "#932253" }}
@@ -117,7 +122,13 @@ function CreateEventPage() {
           </Typography>
           <TextField
             label="event title"
-            {...register("title", { required: "Title is required" })}
+            {...register("title", {
+              required: "Title is required",
+              maxLength: {
+                value: 34,
+                message: "Title cannot exceed 34 characters",
+              },
+            })}
             error={!!errors.title}
             helperText={errors.title?.message}
             variant="outlined"
