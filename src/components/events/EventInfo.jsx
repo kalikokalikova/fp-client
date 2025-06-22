@@ -10,6 +10,7 @@ import EventIcon from "@mui/icons-material/Event";
 import { formattedTimestamp } from "../../utils/timestampFormatter";
 import { ResizedTextLine } from "../ResizedTextLine";
 import { ShareEventModal } from "./ShareEventModal";
+import { eventTime } from "../../utils/eventTime";
 
 export default function EventInfo({ data }) {
   const elementRef = useRef(null);
@@ -58,23 +59,12 @@ export default function EventInfo({ data }) {
           containerWidth={containerWidth}
           initialFontSize={18}
         />
-        <Typography gutterBottom>
-          {formattedTimestamp(data.event.start_date_time).time}
-        </Typography>
-        {data.event.end_date_time && (
-          <>
-            <Typography>
-              {formattedTimestamp(data.event.end_date_time).date}
-            </Typography>
-            <Typography gutterBottom>
-              {formattedTimestamp(data.event.end_date_time).time}
-            </Typography>
-          </>
-        )}
-        <Typography sx={{ display: "flex" }}>
-          <EventIcon sx={{ marginRight: "5px" }} />
-          Add to Calendar
-        </Typography>
+
+        <ResizedTextLine
+          text={eventTime(data.event.start_date_time, data.event.end_date_time)}
+          containerWidth={containerWidth}
+          initialFontSize={24}
+         />
 
         <ResizedTextLine
           text={`${data.location.address_1}`}
@@ -105,8 +95,8 @@ export default function EventInfo({ data }) {
             Share
           </Button>
           <Button sx={{ width: "50%" }}>
-            <DownloadIcon sx={{ marginRight: "5px" }} />
-            Save
+          <EventIcon sx={{ marginRight: "5px" }} />
+          Add to Calendar
           </Button>
         </Box>
       </Container>

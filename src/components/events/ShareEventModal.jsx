@@ -7,9 +7,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
+import DownloadIcon from "@mui/icons-material/Download";
+
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { ResizedTextLine } from "../ResizedTextLine";
 import { formattedTimestamp } from "../../utils/timestampFormatter";
+import { eventTime } from "../../utils/eventTime";
 
 export function ShareEventModal({ open, handleClose, data }) {
   const elementRef = useRef(null);
@@ -56,13 +59,19 @@ export function ShareEventModal({ open, handleClose, data }) {
         </Box>
 
         <DialogContent dividers ref={elementRef} sx={{ width: "auto" }}>
-          <Box sx={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
-          <QRCode
-            value={`${import.meta.env.VITE_FRONTEND_URL}/events/${
-              data.event.id
-            }`}
-            style={{ height: "auto", maxWidth: "50%" }}
-          />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: "20px",
+            }}
+          >
+            <QRCode
+              value={`${import.meta.env.VITE_FRONTEND_URL}/events/${
+                data.event.id
+              }`}
+              style={{ height: "auto", maxWidth: "50%" }}
+            />
           </Box>
 
           <ResizedTextLine
@@ -76,24 +85,23 @@ export function ShareEventModal({ open, handleClose, data }) {
             containerWidth={containerWidth}
             initialFontSize={18}
           />
-          <Typography gutterBottom>
-            {formattedTimestamp(data.event.start_date_time).time}
-          </Typography>
-          {data.event.end_date_time && (
-            <>
-              <Typography>
-                {formattedTimestamp(data.event.end_date_time).date}
-              </Typography>
-              <Typography gutterBottom>
-                {formattedTimestamp(data.event.end_date_time).time}
-              </Typography>
-            </>
-          )}
+          <ResizedTextLine
+            text={eventTime(
+              data.event.start_date_time,
+              data.event.end_date_time
+            )}
+            containerWidth={containerWidth}
+            initialFontSize={24}
+          />
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} sx={{ width: "100%" }}>
-            <ContentCopyIcon />
+          <Button autoFocus onClick={handleClose} sx={{ width: "50%" }}>
+            <ContentCopyIcon sx={{ marginRight: "5px" }} />
             Copy URL
+          </Button>
+          <Button sx={{ width: "50%" }} variant="outlined">
+            <DownloadIcon sx={{ marginRight: "5px" }} />
+            Save
           </Button>
         </DialogActions>
       </Dialog>
