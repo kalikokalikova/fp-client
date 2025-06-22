@@ -1,16 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import api from "../../api";
-import { Box, Button, Typography, Container, Divider } from "@mui/material";
-import QRCode from "react-qr-code";
-import DownloadIcon from "@mui/icons-material/Download";
+import { Box, Button, Container, Divider } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import EventIcon from "@mui/icons-material/Event";
-import { formattedTimestamp } from "../../utils/timestampFormatter";
 import { ResizedTextLine } from "../ResizedTextLine";
 import { ShareEventModal } from "./ShareEventModal";
-import { eventTime } from "../../utils/eventTime";
+import { formatDateTime } from "../../utils/eventDateTimeFormatter";
 
 export default function EventInfo({ data }) {
   const elementRef = useRef(null);
@@ -54,7 +48,7 @@ export default function EventInfo({ data }) {
 
         <Divider sx={{ borderColor: "#FFCB83", margin: "10px 0" }} />
 
-        { eventTime(data.event.start_date_time, data.event.end_date_time).map((line) => (
+        { formatDateTime(data.event.start_date_time, data.event.end_date_time).map((line) => (
           <ResizedTextLine
             text={line}
             containerWidth={containerWidth}

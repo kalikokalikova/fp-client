@@ -10,7 +10,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { ResizedTextLine } from "../ResizedTextLine";
 import { formattedTimestamp } from "../../utils/timestampFormatter";
-import { eventTime } from "../../utils/eventTime";
+import { formatDateTime } from "../../utils/eventDateTimeFormatter";
 
 export function ShareEventModal({ open, handleClose, data }) {
   const elementRef = useRef(null);
@@ -90,7 +90,7 @@ export function ShareEventModal({ open, handleClose, data }) {
             initialFontSize={18}
           />
 
-          {eventTime(data.event.start_date_time, data.event.end_date_time).map(
+          {formatDateTime(data.event.start_date_time, data.event.end_date_time).map(
             (line) => (
               <ResizedTextLine
                 text={line}

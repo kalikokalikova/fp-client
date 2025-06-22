@@ -1,6 +1,6 @@
 import { formattedTimestamp } from "./timestampFormatter";
 
-export const eventTime = (start, end) => {
+export const formatDateTime = (start, end) => {
   let result;
   // event starts and ends on different dates
   if (end && start != end) {
