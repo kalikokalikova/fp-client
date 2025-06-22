@@ -4,7 +4,6 @@ export const formatDateTime = (start, end) => {
   let result;
   // event starts and ends on different dates
   if (end && start != end) {
-    console.log("end and start and end")
     result = [
       `${formattedTimestamp(start).date} ${formattedTimestamp(start).time}`,
       `${formattedTimestamp(end).date} ${formattedTimestamp(end).time}`,

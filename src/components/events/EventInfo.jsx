@@ -70,7 +70,7 @@ export default function EventInfo({ data }) {
         <ResizedTextLine
           text={data.event.host}
           containerWidth={containerWidth}
-          initialFontSize={14}
+          initialFontSize={24}
         />
 
         <Divider sx={{ borderColor: "#FFCB83", margin: "10px 0" }} />
