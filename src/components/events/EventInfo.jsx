@@ -48,24 +48,44 @@ export default function EventInfo({ data }) {
 
         <Divider sx={{ borderColor: "#FFCB83", margin: "10px 0" }} />
 
-        { formatDateTime(data.event.start_date_time, data.event.end_date_time).map((line,index) => (
+        {formatDateTime(
+          data.event.start_date_time,
+          data.event.end_date_time
+        ).map((line, index) => (
           <ResizedTextLine
             key={index}
             text={line}
             containerWidth={containerWidth}
             initialFontSize={18}
-           />
+          />
         ))}
+
+        {data.location.name && (
+          <ResizedTextLine
+            text={`${data.location.name}`}
+            containerWidth={containerWidth}
+            initialFontSize={30}
+          />
+        )}
 
         <ResizedTextLine
           text={`${data.location.address_1}`}
           containerWidth={containerWidth}
           initialFontSize={20}
         />
+
+        {data.location.address_2 && (
+          <ResizedTextLine
+            text={`${data.location.address_2}`}
+            containerWidth={containerWidth}
+            initialFontSize={20}
+          />
+        )}
+
         <ResizedTextLine
-          text={`${data.location.address_2}`}
+          text={`${data.location.city} ${data.location.state} ${data.location.zip}`}
           containerWidth={containerWidth}
-          initialFontSize={14}
+          initialFontSize={20}
         />
 
         <ResizedTextLine
@@ -76,7 +96,7 @@ export default function EventInfo({ data }) {
 
         <Divider sx={{ borderColor: "#FFCB83", margin: "10px 0" }} />
 
-        <Box className="barlow-regular">{data.event.description}</Box>
+        <Box className="barlow-regular" sx={{ overflowWrap: "break-word"}}>{data.event.description}</Box>
 
         <Box
           sx={{ marginTop: "10px", display: "flex", justifyContent: "center" }}

@@ -97,9 +97,10 @@ function QandAs({ qAndAData }) {
       )}
       {!questionInputOpen && (
         <Box sx={{ display: "flex", justifyContent: "center" }}>
-<Button sx={{ width: "80%"}} onClick={handleAskQuestion}>ask a question</Button>
+          <Button sx={{ width: "80%", marginTop: "15px" }} onClick={handleAskQuestion}>
+            ask a question
+          </Button>
         </Box>
-
       )}
     </Container>
   );
