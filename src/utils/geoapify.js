@@ -28,12 +28,11 @@ export const getLocationSuggestions = async (query) => {
       country: feature.properties.country,
 			full_address: [
         feature.properties.name,
-        feature.properties.housenumber,
-        feature.properties.street,
+        [feature.properties.housenumber, feature.properties.street].filter(Boolean).join(" "),
         feature.properties.city,
         feature.properties.state,
         feature.properties.postcode
-      ].filter(Boolean).join(" ")
+      ].filter(Boolean).join(", ")
     }));
 
     return suggestions;
