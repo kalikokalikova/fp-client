@@ -2,13 +2,11 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import QRCode from "react-qr-code";
 import { Button, Box, Divider } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import DownloadIcon from "@mui/icons-material/Download";
-
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { ResizedTextLine } from "../ResizedTextLine";
 import { formattedTimestamp } from "../../utils/timestampFormatter";
@@ -17,6 +15,9 @@ import { eventTime } from "../../utils/eventTime";
 export function ShareEventModal({ open, handleClose, data }) {
   const elementRef = useRef(null);
   const [containerWidth, setContainerWidth] = useState(300);
+  const [eventUrl, setEventUrl] = useState(
+    `${import.meta.env.VITE_FRONTEND_URL}/events/${data.event.id}`
+  );
   const measureWidth = useCallback(() => {
     const element = elementRef.current;
     if (element) {
@@ -36,10 +37,12 @@ export function ShareEventModal({ open, handleClose, data }) {
     };
   }, [containerWidth]); // Include measureWidth in the dependency array
 
-  useEffect(() => {
-    console.log(data);
-  }, []);
-
+  const handleCopyUrl = async () => {
+    try { await navigator.clipboard.writeText(eventUrl);
+    } catch (err) {
+      console.error("URL copy failed: ", err)
+    }
+  }
   return (
     <>
       <Dialog
@@ -95,7 +98,7 @@ export function ShareEventModal({ open, handleClose, data }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} sx={{ width: "50%" }}>
+          <Button autoFocus onClick={handleCopyUrl} sx={{ width: "50%" }}>
             <ContentCopyIcon sx={{ marginRight: "5px" }} />
             Copy URL
           </Button>
